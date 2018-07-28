@@ -1,46 +1,61 @@
-import axios from 'axios';
-
 import history from '../helpers/history';
+import { getSelfFollowing } from './userActions';
+import { LOGIN, REGISTER } from './types/auth';
+import API from '../api';
 
-export const login = (data) => {
+export const login = (username, password) => {
     return async (dispatch) => {
         try {
-            dispatch({ type: 'LOGIN_START' });
+            dispatch(LOGIN.START);
 
-            const req = await axios.post('/auth/login', data);
-            const token = req.data.token;
+            const { data } = await API.login(username, password);
 
-            localStorage.setItem('social_token', token);
+            localStorage.setItem('social_token', data.token);
 
-            dispatch({ type: 'LOGIN_SUCCESS', payload: req.data.user });
+            dispatch(LOGIN.SUCCESS(data.user));
+            dispatch(getSelfFollowing());
+
+            history.push('/');
         } catch (err) {
-            dispatch({ type: 'LOGIN_ERROR', payload: err.response.data.msg });
+            dispatch(LOGIN.ERROR(err.response.data.msg));
         }
     }
 };
 
-export const register = (data) => {
+export const register = (username, password) => {
     return async (dispatch) => {
         try {
-            dispatch({ type: 'REGISTER_START' });
+            dispatch(REGISTER.START);
 
-            await axios.post('/auth/register', data);
+            await API.register(username, password);
 
             history.push('/login');
 
-            dispatch({ type: 'REGISTER_SUCCESS' });
+            dispatch(REGISTER.SUCCESS);
         } catch (err) {
-            dispatch({ type: 'REGISTER_ERROR', payload: err.response.data.msg });
+            dispatch(REGISTER.ERROR(err.response.data.msg));
         }
     }
 };
 
-export const authRequest = (data) => {
-    const token = localStorage.getItem('social_token');
-    return {
-        ...data,
-        headers: {
-            Authorization: `Bearer ${token}`
+export const verifyToken = () => {
+    return async (dispatch) => {
+        try {
+            const { data } = await API.verifyToken();
+
+            dispatch(LOGIN.SUCCESS(data.user));
+            dispatch(getSelfFollowing());
+
+        } catch (err) {
+            dispatch(LOGIN.ERROR(err.response.data.msg));
+            history.push('/login');
         }
+    }
+};
+
+export const logout = () => {
+    return (dispatch) => {
+        localStorage.removeItem('social_token');
+        history.push('/login');
     }
 };

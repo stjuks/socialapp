@@ -32,12 +32,12 @@ router.post('/register', validate.register, (req, res) => {
 router.post('/login', (req, res) => {
 	const { username, password } = req.body;
 	
-	let sql = `SELECT * FROM users WHERE username=${mysql.escape(username)}`;
+	const sql = `SELECT * FROM users WHERE username=${mysql.escape(username)}`;
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
 		if (result.length === 0) {
-			res.status(404).json({
+			res.status(401).json({
 				msg: 'Invalid username or password!'
 			});
 			return;
@@ -62,6 +62,10 @@ router.post('/login', (req, res) => {
 			} 
 		})
 	});
+})
+
+router.get('/verify', authHelper.verifyToken, (req, res) => {
+	res.json({ msg: 'Successfully verified!', user: req.user })
 })
 
 module.exports = router;

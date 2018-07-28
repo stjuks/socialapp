@@ -1,0 +1,19 @@
+.button-container {
+    position: relative;
+    width: 75px;
+}
+
+.button {
+    font-weight: bold;
+    border: none;
+    padding: 5px 10px;
+    background: rgb(126, 215, 0);
+    border-radius: 20px;
+    transition: all .1s;
+    color: white;
+}
+
+.button:hover {
+    background: rgb(141, 246, 0);
+    transform: scale(1.1, 1.1);
+}

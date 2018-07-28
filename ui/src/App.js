@@ -8,6 +8,7 @@ import history from './helpers/history';
 
 import LoginScreen from './containers/LoginScreen';
 import RegisterScreen from './containers/RegisterScreen';
+import Layout from './containers/Layout';
 
 class App extends Component {
     render() {
@@ -18,6 +19,7 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/login" component={LoginScreen} />
                             <Route exact path="/register" component={RegisterScreen} />
+                            <Route path="/" component={Layout} />
                         </Switch>
                     </div>
                 </Router>

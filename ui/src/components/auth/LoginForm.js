@@ -21,9 +21,9 @@ class LoginForm extends Component {
                     <label className="form-label">Password:</label>
                     <input name="password" value={values.password} type="password" onChange={e => handleChange(e)}/>
                 </div>
-                <Button
-                    value="Login"
-                />
+                <Button>
+                    Log in
+                </Button>
                 <div className="tip">
                     No account yet?&nbsp;
                     <Link to="/register">

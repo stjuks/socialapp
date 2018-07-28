@@ -1,0 +1,7 @@
+.popover {
+    border-color: #eee;
+}
+
+.popover .arrow {
+    display: none;
+}

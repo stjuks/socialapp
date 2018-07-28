@@ -13,7 +13,10 @@ class RegisterScreen extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.dispatch(register(this.state));
+        const { dispatch } = this.props;
+        const { username, password } = this.state;
+
+        dispatch(register(username, password));
     };
 
     handleChange = (e) => {

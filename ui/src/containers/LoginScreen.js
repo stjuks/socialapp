@@ -13,7 +13,10 @@ class LoginScreen extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.dispatch(login(this.state));
+        const { dispatch } = this.props;
+        const { username, password } = this.state;
+
+        dispatch(login(username, password));
     };
 
     handleChange = (e) => {

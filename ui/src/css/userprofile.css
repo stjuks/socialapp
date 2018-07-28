@@ -1,0 +1,14 @@
+.user-profile .username {
+    font-size: 3rem;
+}
+
+.profile-details {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.profile-details .following,
+.profile-details .followers {
+    margin-left: 10px;
+}

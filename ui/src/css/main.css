@@ -1,0 +1,53 @@
+@import 'navbar.css';
+@import 'feed.css';
+@import 'layout.css';
+@import 'sidebar.css';
+@import 'colors.css';
+@import 'userprofile.css';
+
+@import 'bootstrap/popover.css';
+
+@import 'helpers/button.css';
+@import 'helpers/icon.css';
+
+@font-face { font-family: OpenSans; src: url('./fonts/OpenSans-Regular.ttf'); }
+
+html {
+    font-size: 12px !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "OpenSans", Helvetica, Arial, sans-serif;
+}
+
+::placeholder {
+    color: #c0c0c0;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.app-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.item-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: center;
+}
+
+.screen-container {
+    overflow-y: scroll;
+    background: #fafafa;
+    padding: 25px;
+    width: 100%;
+}

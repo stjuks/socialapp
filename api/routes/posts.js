@@ -46,7 +46,10 @@ router.get('/image/:imageName', (req, res) => {
 router.get('/get/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = `SELECT * FROM posts WHERE user_id=${mysql.escape(userId)}`;
+	const sql = `SELECT posts.*, Count(likes.post_id) as like_count
+		FROM (posts LEFT JOIN likes ON posts.post_id=likes.post_id) 
+		WHERE posts.user_id=${mysql.escape(userId)}
+		GROUP BY post_id`;
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
@@ -56,14 +59,13 @@ router.get('/get/:userId', (req, res) => {
 
 router.get('/following', authHelper.verifyToken, (req, res) => {
 	const { user } = req;
-	const post = {};
 
-	const sql = `SELECT users.username, posts.*, Count(*) as likes
-		FROM ((likes INNER JOIN posts ON likes.post_id=posts.post_id)
-      	INNER JOIN users on users.id=posts.user_id)
-      	WHERE posts.user_id IN
+	const sql = `SELECT users.username, posts.*, Count(likes.post_id) as like_count
+		FROM ((posts LEFT JOIN likes ON posts.post_id=likes.post_id)
+		LEFT JOIN users on users.id=posts.user_id)
+		WHERE posts.user_id IN
       	(SELECT following_id FROM followers WHERE follower_id=${mysql.escape(user.id)})
-		GROUP BY likes.post_id;`
+		GROUP BY post_id;`;
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;

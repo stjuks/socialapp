@@ -15,6 +15,7 @@ class Button extends Component {
             value,
             isLoading,
             disabled,
+            style,
             color
         } = this.props;
 
@@ -23,25 +24,25 @@ class Button extends Component {
         } = this.state;
 
         let backgroundStyle = {
-            background: isLoading || disabled ? '#eee' : 'dodgerblue',
-            cursor: isLoading || disabled ? 'default' : 'pointer'
+            ...style
         };
 
         let hoverStyle = {
-            background: '#eee',
-            cursor: isLoading || disabled ? 'default' : 'pointer'
+            ...style
         };
 
         return (
-            <button
-                className={`${className} button`}
-                style={isHovering ? backgroundStyle : hoverStyle}
-                onClick={isLoading || disabled ? null : onClick}
-                onMouseOver={e => this.setState({ isHovering: true })}
-                onMouseOut={e => this.setState({ isHovering: false })}
-            >
-                {isLoading ? <div className="loader" /> : value}
-            </button>
+            <div className="button-container">
+                <button
+                    className={`${className} button`}
+                    style={isHovering ? backgroundStyle : hoverStyle}
+                    onClick={isLoading || disabled ? null : onClick}
+                    onMouseOver={e => this.setState({ isHovering: true })}
+                    onMouseOut={e => this.setState({ isHovering: false })}
+                >
+                    {isLoading ? <div className="loader" /> : this.props.children}
+                </button>
+            </div>
         );
     }
 }
