@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import store from './store';
-import history from './helpers/history';
+import store from 'store';
+import history from 'helpers/history';
 
-import LoginScreen from './containers/LoginScreen';
-import RegisterScreen from './containers/RegisterScreen';
-import Layout from './containers/Layout';
+import LoginScreen from 'containers/LoginScreen';
+import RegisterScreen from 'containers/RegisterScreen';
+import Layout from 'containers/Layout';
 
 class App extends Component {
     render() {

@@ -17,6 +17,11 @@ const storage = multer.diskStorage({
 	}
 });
 
+const limits = {
+	fileSize: 1024 * 1024 * 1024
+}
+
 module.exports = {
-	storage
+	storage,
+	limits
 };

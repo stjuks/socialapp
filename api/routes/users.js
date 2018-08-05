@@ -42,7 +42,7 @@ router.get('/get/:username', authHelper.verifyToken, (req, res) => {
 		if (result.length === 0) return res.status(404).json({ msg: 'No user found!' });
 
 		const user = result[0];
-		let sql = `SELECT * FROM posts WHERE user_id=${user.id}`;
+		let sql = `SELECT * FROM posts WHERE user_id=${user.id};`;
 
 		db.query(sql, (err, result) => {
 			if (err) throw err;

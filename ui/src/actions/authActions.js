@@ -1,7 +1,8 @@
-import history from '../helpers/history';
+import history from 'helpers/history';
 import { getSelfFollowing } from './userActions';
 import { LOGIN, REGISTER } from './types/auth';
-import API from '../api';
+import { RESET_STATE } from './types';
+import API from 'api';
 
 export const login = (username, password) => {
     return async (dispatch) => {
@@ -57,5 +58,6 @@ export const logout = () => {
     return (dispatch) => {
         localStorage.removeItem('social_token');
         history.push('/login');
+        dispatch(RESET_STATE);
     }
 };

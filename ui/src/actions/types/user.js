@@ -1,5 +1,3 @@
-import { typeMap } from './index';
-
 export const SEARCH_USERS = {
     START: { type: 'SEARCH_USERS_START' },
     SUCCESS: (payload) => ({ type: 'SEARCH_USERS_SUCCESS', payload }),
@@ -20,6 +18,6 @@ export const FETCH_USER_PROFILE = {
 
 export const FOLLOW_USER = {
     START: { type: 'FOLLOW_USER_START' },
-    SUCCESS: (payload) => typeMap('FOLLOW_USER_SUCCESS', payload),
+    SUCCESS: (payload) => ({ type: 'FOLLOW_USER_SUCCESS', payload }),
     ERROR: { type: 'FOLLOW_USER_ERROR' }
 };

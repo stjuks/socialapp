@@ -1,6 +1,5 @@
 .post-item-wrapper {
-    flex-basis: calc(100% / 3);
-    /*padding-left: 50px;*/
+    /*flex-basis: calc(100% / 3);*/
     min-width: 300px;
     background-clip: padding-box;
     padding: 25px;

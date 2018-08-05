@@ -1,3 +1,1 @@
-export const typeMap = (type, payload) => {
-    return { type, payload }
-};
+export const RESET_STATE = { type: 'RESET_STATE' };

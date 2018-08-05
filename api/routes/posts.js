@@ -11,7 +11,7 @@ const config = require('../config');
 const authHelper = require('../helpers/auth');
 const db = require('../db/db');
 
-const upload = multer({ storage: config.storage });
+const upload = multer({ storage: config.storage, limits: config.limits });
 
 router.post('/create', authHelper.verifyToken, upload.single('image'), (req, res) => {
 	const { caption } = req.body;
@@ -49,7 +49,7 @@ router.get('/get/:userId', (req, res) => {
 	const sql = `SELECT posts.*, Count(likes.post_id) as like_count
 		FROM (posts LEFT JOIN likes ON posts.post_id=likes.post_id) 
 		WHERE posts.user_id=${mysql.escape(userId)}
-		GROUP BY post_id`;
+		GROUP BY post_id;`;
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
