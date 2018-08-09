@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 
-import { ContactItemStyled, AvatarContainerStyled } from './styles';
+import {
+    ContactItemStyled,
+    ContactPictureStyled,
+    ContactStatusStyled
+} from './styles';
 
 class ContactItem extends Component {
     render() {
-        const {
-            contact,
-            getProfile
-        } = this.props;
-
         return (
-            <ContactItemStyled
-                onClick={e => getProfile(contact.username)}
-                to={`/${contact.username}`}
-            >
-                <AvatarContainerStyled>
+            <ContactItemStyled>
+                <ContactPictureStyled>
                     <img src="/images/default-avatar.svg" alt="avatar" />
-                </AvatarContainerStyled>
-                {contact.username}
+                </ContactPictureStyled>
+                John Doe
+                <ContactStatusStyled />
             </ContactItemStyled>
         );
     }

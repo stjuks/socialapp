@@ -4,8 +4,7 @@ export const ContactListStyled = styled.div`
     
 `;
 
-export const SidebarTitleStyled = styled.div`
-    width: 100%;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
+export const ContactListHeader = styled.div`
+    font-size: 1.4rem;
+    padding: 10px;
 `;

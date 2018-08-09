@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const LayoutStyled = styled.div`
     display: flex;
-    flex-direction: column;
     height: 100%;
     position: absolute;
     bottom: 0;
@@ -13,5 +12,6 @@ export const LayoutStyled = styled.div`
 
 export const ContentStyled = styled.div`
     display: flex;
+    flex-direction: column;
     flex: 1;
 `;

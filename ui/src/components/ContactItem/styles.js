@@ -1,19 +1,29 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-export const ContactItemStyled = styled(Link)`
-    align-items: center;
+export const ContactItemStyled = styled.div`
     display: flex;
-    padding: 5px 0 5px 5px;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    align-items: center;
     cursor: pointer;
     
     :hover {
-        background: #fafafa;
+        background: ${({ theme }) => theme.BLACK(.1)};
     }
 `;
 
-export const AvatarContainerStyled = styled.div`
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
+export const ContactPictureStyled = styled.div`
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 7px;
+    filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, .25));
+`;
+
+export const ContactStatusStyled = styled.div`
+    background: ${({ theme }) => theme.ONLINE};
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: auto;
 `;

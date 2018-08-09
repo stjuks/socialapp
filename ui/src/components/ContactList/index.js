@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 
-import ContactItem from '../ContactItem/index';
+import {
+    ContactListStyled,
+    ContactListHeader
+} from './styles';
 
-import { ContactListStyled, SidebarTitleStyled } from './styles';
+import { Divider } from 'styled/Divider';
+import ContactItem from '../ContactItem';
 
 class ContactList extends Component {
     render() {
-        const {
-            contacts,
-            getProfile
-        } = this.props;
-
         return (
             <ContactListStyled>
-                <SidebarTitleStyled>
-                    CONTACTS
-                </SidebarTitleStyled>
-                {contacts.map((contact, i) => (
-                    <ContactItem
-                        key={i}
-                        getProfile={getProfile}
-                        contact={contact}
-                    />
-                ))}
+                <ContactListHeader>
+                    Contacts
+                </ContactListHeader>
+                <Divider margin="0 0 8px 0" />
+                <ContactItem />
+                <ContactItem />
             </ContactListStyled>
         );
     }

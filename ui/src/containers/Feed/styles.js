@@ -1,5 +1,5 @@
-import { ScreenContainer } from 'styled/ScreenContainer';
+import styled from 'styled-components';
 
-export const FeedStyled = ScreenContainer.extend`
-    
+export const FeedStyled = styled.div`
+    flex: 1;
 `;

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import Navbar from '../Navbar';
-import Feed from '../Feed';
-import Sidebar from '../Sidebar';
-import UserProfile from '../UserProfile';
+import { Switch, Route } from 'react-router-dom';
 
 import { LayoutStyled, ContentStyled } from './styles';
 
 import { verifyToken } from '../../actions/authActions';
+
+import Sidebar from '../Sidebar';
+import Feed from '../Feed';
+import UserProfile from '../UserProfile';
+import Navbar from '../Navbar';
 
 class Layout extends Component {
     componentDidMount() {
@@ -19,12 +19,12 @@ class Layout extends Component {
     render() {
         return (
             <LayoutStyled>
-                <Navbar />
+                <Sidebar />
                 <ContentStyled>
-                    <Sidebar />
+                    <Navbar />
                     <Switch>
                         <Route exact path="/" component={Feed} />
-                        <Route exact path="/:username" component={UserProfile} />
+                        <Route path="/:username" component={UserProfile}/>
                     </Switch>
                 </ContentStyled>
             </LayoutStyled>
