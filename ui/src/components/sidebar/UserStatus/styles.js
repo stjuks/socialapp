@@ -22,7 +22,7 @@ export const StatusDetailsStyled = styled.div`
 `;
 
 export const NameStyled = styled.div`
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 `;
 
 export const StatusStyled = styled.div`

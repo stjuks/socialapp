@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import RegisterForm from 'components/RegisterForm';
+import RegisterForm from 'components/auth/RegisterForm';
 
 import { register } from 'actions/authActions';
 import { RegisterScreenStyled } from './styles';

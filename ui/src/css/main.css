@@ -11,15 +11,21 @@
 @import 'helpers/icon.css';*/
 
 html {
-    font-size: 10px !important;
+    font-size: 12px !important;
+}
+
+@media only screen and (max-width: 420px) {
+    html {
+        font-size: 16px !important;
+    }
 }
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    font-weight: 300;
-    letter-spacing: .05rem;
+    font-weight: 400;
+    overflow: hidden;
 }
 
 ::placeholder {
@@ -31,6 +37,8 @@ a:hover {
     text-decoration: none;
     color: inherit;
 }
+
+label { margin: 0; }
 
 /*.app-container {
     width: 100vw;

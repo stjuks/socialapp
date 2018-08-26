@@ -1,5 +1,5 @@
-import styled from 'styled-components';
+import { ScreenContainer } from 'styled/ScreenContainer';
 
-export const UserProfileStyled = styled.div`
+export const UserProfileStyled = ScreenContainer.extend`
     flex: 1;
 `;

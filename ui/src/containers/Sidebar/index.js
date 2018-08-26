@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { SidebarStyled } from './styles';
 
-import UserStatus from 'components/UserStatus';
-import ContactList from 'components/ContactList';
+import UserStatus from 'components/sidebar/UserStatus';
+import ContactList from 'components/sidebar/ContactList';
 
 class Sidebar extends Component {
     render() {

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const ContactItemStyled = styled.div`
     display: flex;
     padding: 5px 10px;
-    font-size: 1.2rem;
     align-items: center;
     cursor: pointer;
     
