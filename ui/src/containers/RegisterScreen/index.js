@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import history from 'helpers/history';
+import { routes } from 'helpers/constants';
 
 import RegisterForm from 'components/auth/RegisterForm';
 
-import { register } from 'actions/authActions';
 import { RegisterScreenStyled } from './styles';
+import { login } from 'actions/authActions';
 
 class RegisterScreen extends Component {
     state = {
         username: '',
-        password: ''
+        password: '',
+        confirmPassword: '',
+        email: '',
+        isSubmitted: false,
+        isSuccess: null
     };
 
     onSubmit = (e) => {
@@ -17,7 +23,17 @@ class RegisterScreen extends Component {
         const { dispatch } = this.props;
         const { username, password } = this.state;
 
-        dispatch(register(username, password));
+        this.setState({ isSubmitted: true });
+
+        setTimeout(async () => {
+            let res = await dispatch(login(username, password));
+            this.setState({ isSuccess: res });
+            setTimeout(() => {
+                this.setState({ isSubmitted: false });
+                res && history.push(routes.app);
+                console.log(this.state);
+            }, 600);
+        }, 200);
     };
 
     handleChange = (e) => {
@@ -25,16 +41,30 @@ class RegisterScreen extends Component {
     };
 
     render() {
+        const { isLoading, error } = this.props;
+        const { isSuccess, isSubmitted } = this.state;
+
         return (
             <RegisterScreenStyled>
                 <RegisterForm
                     values={this.state}
                     onSubmit={this.onSubmit}
                     handleChange={this.handleChange}
+                    isLoading={isLoading}
+                    isSubmitted={isSubmitted}
+                    error={error || ''}
+                    isSuccess={isSuccess}
                 />
             </RegisterScreenStyled>
         );
     }
 }
 
-export default connect()(RegisterScreen);
+const mapStateToProps = (store) => {
+    return {
+        isLoading: store.loading.register,
+        error: store.error.register
+    }
+};
+
+export default connect(mapStateToProps)(RegisterScreen);

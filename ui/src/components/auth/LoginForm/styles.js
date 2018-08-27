@@ -83,53 +83,6 @@ export const InputsStyled = styled.div`
     justify-content: space-around;
 `;
 
-export const InputContainer = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid ${({ theme }) => theme.GREY_208()};
-    
-`;
-
-export const FormInput = styled.input`
-    width: 100%;
-    padding: 0 .5rem;
-    background: transparent;
-    border: none;
-    outline: none;
-    z-index: 9;
-    height: 2.5rem;
-    
-    ${({ value }) => value.length > 0 && `
-        ~ div { transform : scaleX(1); }
-        ~ label { bottom: 2rem; }
-    `}
-    
-    :focus ~ div { transform: scaleX(1); }
-    :focus ~ label { bottom: 2rem; }
-`;
-
-export const InputLabel = styled.label`
-    position: absolute;
-    font-weight: 400;
-    left: 0;
-    bottom: 0;
-    font-weight: 600;
-    transition: all .2s;
-    color: ${({ theme }) => theme.GREY_119()};
-`;
-
-export const AnimatedBorder = styled.div`
-    position: absolute;
-    width: 100%;
-    bottom: -1px;
-    height: 1px;
-    transition: all .2s;
-    background: black;
-    transform: scaleX(0);
-    transform-origin: left;
-`;
-
 export const ErrorMessage = styled.div`
     ${({ hasError }) => `
         transform: ${hasError ? 'scaleY(1)' : 'scaleY(0)'};

@@ -8,12 +8,14 @@ import {
 
 class ContactItem extends Component {
     render() {
+        const { username } = this.props;
+
         return (
             <ContactItemStyled>
                 <ContactPictureStyled>
                     <img src="/images/default-avatar.svg" alt="avatar" />
                 </ContactPictureStyled>
-                John Doe
+                    {username}
                 <ContactStatusStyled />
             </ContactItemStyled>
         );

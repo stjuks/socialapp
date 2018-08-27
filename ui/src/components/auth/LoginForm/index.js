@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { routes } from 'helpers/constants';
+
+import Input from 'styled/Input';
+
 import {
-    LoginFormStyled,
+    AuthFormStyled,
     FormTitle,
-    InputContainer,
-    FormInput,
-    InputLabel,
     InputsStyled,
-    AnimatedBorder,
     ErrorMessage,
     SubmitBtn,
     BtnContainer,
     SuggestionStyled,
     LoaderStyled
-} from './styles';
+} from '../styles';
 
 class LoginForm extends Component {
     render() {
@@ -28,28 +28,30 @@ class LoginForm extends Component {
             error
         } = this.props;
 
-        console.log(isSuccess);
-
         return (
-            <LoginFormStyled onSubmit={e => onSubmit(e)}>
+            <AuthFormStyled onSubmit={e => onSubmit(e)}>
                 <FormTitle>
                     Sign in
                 </FormTitle>
                 <InputsStyled>
-                    <InputContainer>
-                        <FormInput type="text" required name="username" value={values.username} onChange={e => handleChange(e)} autoComplete="off" id="username" />
-                        <InputLabel htmlFor="username">
-                            Username
-                        </InputLabel>
-                        <AnimatedBorder />
-                    </InputContainer>
-                    <InputContainer>
-                        <FormInput type="password" required name="password" value={values.password} onChange={e => handleChange(e)} autoComplete="off" id="password" />
-                        <InputLabel htmlFor="password">
-                            Password
-                        </InputLabel>
-                        <AnimatedBorder />
-                    </InputContainer>
+                    <Input
+                        required
+                        label="Username"
+                        type="text"
+                        name="username"
+                        value={values.username}
+                        onChange={e => handleChange(e)}
+                        autoComplete="off"
+                    />
+                    <Input
+                        required
+                        label="Password"
+                        type="password"
+                        name="password"
+                        value={values.password}
+                        onChange={e => handleChange(e)}
+                        autoComplete="off"
+                    />
                 </InputsStyled>
                 <ErrorMessage hasError={error.length > 0}>
                     {error}
@@ -65,9 +67,9 @@ class LoginForm extends Component {
                     </SubmitBtn>
                 </BtnContainer>
                 <SuggestionStyled>
-                    No account yet? Register&nbsp;<Link to="">here!</Link>
+                    No account yet? Register&nbsp;<Link to={routes.register}>here!</Link>
                 </SuggestionStyled>
-            </LoginFormStyled>
+            </AuthFormStyled>
         );
     }
 }

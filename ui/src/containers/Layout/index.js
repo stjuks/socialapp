@@ -13,7 +13,8 @@ import Navbar from '../Navbar';
 
 class Layout extends Component {
     componentDidMount() {
-        this.props.dispatch(verifyToken());
+        const { dispatch } = this.props;
+        dispatch(verifyToken());
     }
 
     render() {

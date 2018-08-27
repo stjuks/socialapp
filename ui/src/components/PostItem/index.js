@@ -40,7 +40,7 @@ class PostItem extends Component {
                         <DetailContainer>
                             <Icon type="chat" /> 11
                         </DetailContainer>
-                        <p>#ayy Lorem ipsum dolor sit amet. :)</p>
+                        <p>Do you like puppies? :) #doggo #puppy #dog</p>
                     </PostDetailsStyled>
                 </PostItemWrapper>
             </PostItemStyled>

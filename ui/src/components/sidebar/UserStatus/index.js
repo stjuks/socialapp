@@ -12,6 +12,8 @@ import {
 
 class UserStatus extends Component {
     render() {
+        const { username } = this.props;
+
         return (
             <UserStatusStyled>
                 <ProfilePictureStyled>
@@ -19,7 +21,7 @@ class UserStatus extends Component {
                 </ProfilePictureStyled>
                 <StatusDetailsStyled>
                     <NameStyled>
-                        Steven Juks
+                        {username}
                     </NameStyled>
                     <StatusStyled>
                         <StatusIconStyled />

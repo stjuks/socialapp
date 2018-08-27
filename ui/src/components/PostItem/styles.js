@@ -41,16 +41,18 @@ export const PostImage = styled.img`
 `;
 
 export const PostNameStyled = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 5px;
-    opacity: 0;
-    transition: opacity .2s;
-    color: ${({ theme }) => theme.GREY_250()};
-    text-align: center;
-    background: ${({ theme }) => theme.BLACK(.3)};
+    ${({ theme }) => `
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: .4rem 0 2rem 0;
+        opacity: 0;
+        transition: opacity .2s;
+        color: ${theme.GREY_250()};
+        text-align: center;
+        background: linear-gradient(to bottom, ${theme.BLACK(.5)}, transparent);
+    `}
 `;
 
 export const PostDetailsStyled = styled.div`

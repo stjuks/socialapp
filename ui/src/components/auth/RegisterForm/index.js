@@ -1,48 +1,93 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from 'styled/Button';
-import { FormGroup, Label, Input } from 'styled/Form';
-import { RegisterFormStyled, FormFooter } from './styles';
+import { routes } from 'helpers/constants';
+
+import Input from 'styled/Input';
+
+import {
+    AuthFormStyled,
+    FormTitle,
+    InputsStyled,
+    ErrorMessage,
+    SubmitBtn,
+    BtnContainer,
+    SuggestionStyled,
+    LoaderStyled
+} from '../styles';
 
 class RegisterForm extends Component {
     render() {
         const {
             onSubmit,
             values,
-            handleChange
+            handleChange,
+            isSubmitted,
+            isLoading,
+            isSuccess,
+            error
         } = this.props;
 
         return (
-            <RegisterFormStyled onSubmit={e => onSubmit(e)}>
-                <FormGroup>
-                    <Label>Username:</Label>
+            <AuthFormStyled onSubmit={e => onSubmit(e)}>
+                <FormTitle>
+                    Register
+                </FormTitle>
+                <InputsStyled>
                     <Input
+                        required
+                        label="Username"
+                        type="text"
                         name="username"
                         value={values.username}
-                        type="text"
                         onChange={e => handleChange(e)}
+                        autoComplete="off"
                     />
-                </FormGroup>
-                <FormGroup>
-                    <Label>Password:</Label>
                     <Input
+                        required
+                        label="Password"
+                        type="password"
                         name="password"
                         value={values.password}
-                        type="password"
                         onChange={e => handleChange(e)}
+                        autoComplete="off"
                     />
-                </FormGroup>
-                <Button>
-                    Register
-                </Button>
-                <FormFooter>
-                    Already have an account?&nbsp;
-                    <Link to="/login">
-                        Login!
-                    </Link>
-                </FormFooter>
-            </RegisterFormStyled>
+                    <Input
+                        required
+                        label="Confirm Password"
+                        type="password"
+                        name="confirmPassword"
+                        value={values.confirmPassword}
+                        onChange={e => handleChange(e)}
+                        autoComplete="off"
+                    />
+                    <Input
+                        required
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={values.email}
+                        onChange={e => handleChange(e)}
+                        autoComplete="off"
+                    />
+                </InputsStyled>
+                <ErrorMessage hasError={error.length > 0}>
+                    {error}
+                </ErrorMessage>
+                <BtnContainer>
+                    <SubmitBtn isSuccess={isSuccess} isSubmitted={isSubmitted} isLoading={isLoading}>
+                        Register
+                        {isLoading &&
+                        <LoaderStyled width="100%" height="100%">
+                            <circle r="8" fill="black" cy="50%" cx="50%" />
+                        </LoaderStyled>
+                        }
+                    </SubmitBtn>
+                </BtnContainer>
+                <SuggestionStyled>
+                    Already have an account? Login&nbsp;<Link to={routes.login}>here!</Link>
+                </SuggestionStyled>
+            </AuthFormStyled>
         );
     }
 }

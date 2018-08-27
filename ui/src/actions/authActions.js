@@ -22,7 +22,7 @@ export const login = (username, password) => {
 
             return true;
         } catch (err) {
-            dispatch(LOGIN.ERROR(err.response.data.msg));
+            dispatch(LOGIN.ERROR(err.response.data.msg || ''));
             return false;
         }
     }

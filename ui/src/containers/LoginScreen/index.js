@@ -16,10 +16,6 @@ class LoginScreen extends Component {
         isSuccess: null
     };
 
-    componentDidMount() {
-        console.log(this.state);
-    }
-
     onSubmit = (e) => {
         e.preventDefault();
         const { dispatch } = this.props;
