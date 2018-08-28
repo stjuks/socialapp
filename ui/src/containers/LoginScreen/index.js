@@ -23,14 +23,10 @@ class LoginScreen extends Component {
 
         this.setState({ isSubmitted: true });
 
-        setTimeout(async () => { // wait for button animation to end
+        setTimeout(async () => {
             let res = await dispatch(login(username, password));
-            this.setState({ isSuccess: res });
-            setTimeout(() => {
-                this.setState({ isSubmitted: false });
-                res && history.push(routes.app);
-                console.log(this.state);
-            }, 600);
+            this.setState({ isSuccess: res, isSubmitted: res });
+            res && setTimeout(() => { history.push(routes.app); }, 600);
         }, 200);
     };
 

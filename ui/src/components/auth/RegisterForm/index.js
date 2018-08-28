@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { routes } from 'helpers/constants';
+import { routes, validate } from 'helpers/constants';
 
 import Input from 'styled/Input';
 
@@ -33,9 +33,10 @@ class RegisterForm extends Component {
                 <FormTitle>
                     Register
                 </FormTitle>
-                <InputsStyled>
+                <InputsStyled flex="6" padding="1rem 0 0 0">
                     <Input
                         required
+                        validated={validate.username(values.username)}
                         label="Username"
                         type="text"
                         name="username"
@@ -45,6 +46,7 @@ class RegisterForm extends Component {
                     />
                     <Input
                         required
+                        validated={validate.password(values.password)}
                         label="Password"
                         type="password"
                         name="password"
@@ -54,6 +56,7 @@ class RegisterForm extends Component {
                     />
                     <Input
                         required
+                        validated={validate.confirmPassword(values.password, values.confirmPassword)}
                         label="Confirm Password"
                         type="password"
                         name="confirmPassword"
@@ -63,6 +66,7 @@ class RegisterForm extends Component {
                     />
                     <Input
                         required
+                        validated={validate.email(values.email)}
                         label="Email"
                         type="email"
                         name="email"
