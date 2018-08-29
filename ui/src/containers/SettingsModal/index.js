@@ -7,18 +7,19 @@ import { logout } from 'actions/authActions';
 import Icon from 'styled/Icon';
 
 import {
-    SettingsModalStyled,
+    ModalStyled,
     ModalBodyStyled,
-    ModalHeaderStyled,
-    OptionListStyled
-} from './styles';
+    ModalHeaderStyled
+} from 'styled/modal';
+
+import { OptionListStyled } from './styles';
 
 class SettingsModal extends Component {
     render() {
         const { isOpen, dispatch } = this.props;
 
         return (
-            <SettingsModalStyled isOpen={isOpen} toggle={() => dispatch(SETTINGS.CLOSE)}>
+            <ModalStyled width="30rem" isOpen={isOpen} toggle={() => dispatch(SETTINGS.CLOSE)}>
                 <ModalHeaderStyled>
                     <Icon type="settings" noHover />
                 </ModalHeaderStyled>
@@ -28,7 +29,7 @@ class SettingsModal extends Component {
                         <li onClick={() => dispatch(logout())}>Log out</li>
                     </OptionListStyled>
                 </ModalBodyStyled>
-            </SettingsModalStyled>
+            </ModalStyled>
         );
     }
 }

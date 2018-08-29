@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Icon from 'styled/Icon';
 import { MenuBarStyled } from './styles';
 
-import { SETTINGS } from 'actions/types/modal';
+import { SETTINGS, UPLOAD } from 'actions/types/modal';
 
 class SearchUser extends Component {
     render() {
@@ -11,7 +11,7 @@ class SearchUser extends Component {
 
         return (
             <MenuBarStyled>
-                <Icon type="upload" />
+                <Icon type="upload" onClick={() => toggleModal(UPLOAD.OPEN)} />
                 <Icon type="chat" />
                 <Icon type="settings" onClick={() => toggleModal(SETTINGS.OPEN)} />
                 <Icon type="profile" />

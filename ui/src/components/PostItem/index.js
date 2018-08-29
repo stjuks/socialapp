@@ -19,7 +19,7 @@ class PostItem extends Component {
     };
 
     render() {
-        const { img } = this.props;
+        const { img, username, caption, timestamp, likeCount } = this.props;
         const { isImageLoaded } = this.state;
 
         return (
@@ -30,17 +30,17 @@ class PostItem extends Component {
                             <PostImage onLoad={() => this.setState({ isImageLoaded: true })} src={img} />
                         </PostImageWrapper>
                         <PostNameStyled className="post-name">
-                            name
+                            {username}
                         </PostNameStyled>
                     </PostImageStyled>
                     <PostDetailsStyled>
                         <DetailContainer>
-                            <Icon type="heart" /> 129
+                            <Icon type="heart" /> {likeCount}
                         </DetailContainer>
                         <DetailContainer>
-                            <Icon type="chat" /> 11
+                            <Icon type="chat" /> 0
                         </DetailContainer>
-                        <p>Do you like puppies? :) #doggo #puppy #dog</p>
+                        <p>{caption}</p>
                     </PostDetailsStyled>
                 </PostItemWrapper>
             </PostItemStyled>

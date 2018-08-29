@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 
-import { PostsStyled } from './styles';
+import { API_URL } from 'config';
 
+import { PostsStyled } from './styles';
 import PostItem from '../PostItem';
 
 class Posts extends Component {
     render() {
+        const { posts } = this.props;
+
         return (
             <PostsStyled>
-                <PostItem img="http://placepuppy.net/400/300" />
-                <PostItem img="http://placepuppy.net/600/300" />
-                <PostItem img="http://placepuppy.net/800/600" />
-                <PostItem img="http://placepuppy.net/700/650" />
-                <PostItem img="http://placepuppy.net/500/500" />
-                <PostItem img="http://placepuppy.net/330/450" />
-                <PostItem img="http://placepuppy.net/900/800" />
+                {posts.map(post =>
+                    <PostItem
+                        img={`${API_URL}/posts/image/${post.image}`}
+                        likeCount={post.like_count}
+                        postId={post.post_id}
+                        caption={post.caption}
+                        timestamp={post.timestamp}
+                        username={post.username}
+                    />
+                )}
             </PostsStyled>
         );
     }

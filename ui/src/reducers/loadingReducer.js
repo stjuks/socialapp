@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-    login: false
+    login: false,
+    register: false
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
@@ -14,6 +15,9 @@ export default function reducer(state=INITIAL_STATE, action) {
     switch (action.type) {
         case 'LOGIN_' + requestState: {
             return { ...state, login: isStartRequest }
+        }
+        case 'REGISTER_' + requestState: {
+            return { ...state, register: isStartRequest }
         }
         case 'RESET_STATE': {
             return INITIAL_STATE;

@@ -12,6 +12,7 @@ import LoginScreen from 'containers/LoginScreen';
 import RegisterScreen from 'containers/RegisterScreen';
 import Layout from 'containers/Layout';
 import SettingsModal from 'containers/SettingsModal';
+import UploadModal from 'containers/UploadModal';
 
 import { AppStyled } from './styles';
 
@@ -28,6 +29,7 @@ class App extends Component {
                                 <Route path="/" component={Layout} />
                             </Switch>
                             <SettingsModal />
+                            <UploadModal />
                         </AppStyled>
                     </ThemeProvider>
                 </Router>

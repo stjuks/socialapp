@@ -6,7 +6,9 @@ import { routes } from 'helpers/constants';
 import RegisterForm from 'components/auth/RegisterForm';
 
 import { RegisterScreenStyled } from './styles';
-import { login } from 'actions/authActions';
+import { register } from 'actions/authActions';
+
+import { REGISTER } from 'actions/types/auth';
 
 class RegisterScreen extends Component {
     state = {
@@ -21,17 +23,20 @@ class RegisterScreen extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const { dispatch } = this.props;
-        const { username, password } = this.state;
+        const { username, password, confirmPassword } = this.state;
+
+        if (password !== confirmPassword) {
+            return dispatch(REGISTER.ERROR('Passwords do not match!'));
+        }
 
         this.setState({ isSubmitted: true });
 
         setTimeout(async () => {
-            let res = await dispatch(login(username, password));
+            let res = await dispatch(register(username, password));
             this.setState({ isSuccess: res });
             setTimeout(() => {
                 this.setState({ isSubmitted: false });
-                res && history.push(routes.app);
-                console.log(this.state);
+                res && history.push(routes.login);
             }, 600);
         }, 200);
     };
