@@ -13,8 +13,8 @@ const register = (req, res, next) => {
 		}
 		next();
 	})
-}
+};
 
 module.exports = {
 	register
-}
+};

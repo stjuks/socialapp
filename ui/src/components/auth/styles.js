@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { REGISTER } from '../../actions/types/auth';
 
 const load = keyframes`
     from { visibility: visible; }

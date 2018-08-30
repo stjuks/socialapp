@@ -1,16 +1,16 @@
 const INITIAL_STATE = {
     self: {
-        username: null,
-        userId: null,
+        username: '',
+        userId: 0,
         following: []
     },
     userSearchResults: [],
     activeProfile: {
-        id: null,
-        username: null,
+        userId: 0,
+        username: '',
         posts: [],
-        follower_count: null,
-        following_count: null
+        follower_count: 0,
+        following_count: 0
     }
 };
 
@@ -23,7 +23,7 @@ export default function reducer(state=INITIAL_STATE, action) {
                 self: {
                     ...state.self,
                     username: action.payload.username,
-                    userId: action.payload.id
+                    userId: action.payload.user_id
                 }
             }
         }

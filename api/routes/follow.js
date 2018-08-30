@@ -4,7 +4,8 @@ const router = express.Router();
 const mysql = require('mysql');
 
 const authHelper = require('../helpers/auth');
-const db = require('../db/db');
+const db = require('../db');
+const { users } = require('../db/queries');
 
 router.get('/follow/:followingId', authHelper.verifyToken, (req, res) => {
 	const { followingId } = req.params;
@@ -15,7 +16,8 @@ router.get('/follow/:followingId', authHelper.verifyToken, (req, res) => {
 		return;
 	}
 
-	const sql = `INSERT INTO followers (follower_id, following_id) VALUES (${mysql.escape(user.id)}, ${mysql.escape(followingId)})`;
+	const sql = users.follow(user.user_id, followingId);
+
 	db.query(sql, (err, result) => {
 		if (err) {
 			res.status(400).json({ msg: 'User does not exist or you already follow this user!' });
@@ -35,7 +37,8 @@ router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
 		return;
 	}
 
-	const sql = `DELETE FROM followers WHERE follower_id=${mysql.escape(user.id)} AND following_id=${mysql.escape(followingId)}`;
+	const sql = users.unfollow(user.user_id, followingId);
+
 	db.query(sql, (err, result) => {
 		if (err || result.affectedRows === 0) {
 			res.status(400).json({ msg: 'User does not exist or you are not following this user!' });
@@ -49,25 +52,23 @@ router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
 router.get('/followers/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = `SELECT id, username FROM users WHERE id IN (
-		SELECT follower_id FROM followers WHERE following_id=${mysql.escape(userId)})`;
+	const sql = users.getFollowers(userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
-		res.json(result);
+		res.json(result.rows);
 	})
 });
 
 router.get('/following/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = `SELECT id, username FROM users WHERE id IN (
-		SELECT following_id FROM followers WHERE follower_id=${mysql.escape(userId)})`;
+	const sql = users.getFollowing(userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
-		res.json(result);
+		res.json(result.rows);
 	})
-})
+});
 
 module.exports = router;

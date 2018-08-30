@@ -23,7 +23,7 @@ const verifyToken = (req, res, next) => {
 			msg: 'You must be logged in to access this route!'
 		});
 	}
-}
+};
 
 module.exports = {
 	verifyToken: verifyToken,
