@@ -2,6 +2,10 @@
     border-color: #eee;
 }
 
+.popover-body {
+    padding: 0;
+}
+
 .popover .arrow {
     display: none;
 }

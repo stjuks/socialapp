@@ -1,31 +1,38 @@
 import axios from 'axios';
-import cachios from 'cachios';
 
 import { authRequest } from './index';
 
-const searchUsers = async (query) => {
+const search = async query => {
     return axios.get('/users/search', {
-        params: {
-            query
-        }
+        params: { query }
     });
 };
 
-const getSelfFollowing = async (userId) => {
-    return cachios.get(`/users/following/${userId}`, authRequest());
+const following = async userId => {
+    return axios.get(`/users/following/${userId}`, authRequest());
 };
 
-const getUserProfile = async (username) => {
-    return cachios.get(`/users/get/${username}`, authRequest());
+const followers = async userId => {
+    return axios.get(`/users/followers/${userId}`, authRequest());
+}
+
+const profile = async userId => {
+    return axios.get(`/users/get/${userId}`, authRequest());
 };
 
-const handleFollow = async (userId, isFollowing) => {
-    return axios.get(`/users/${isFollowing ? 'unfollow' : 'follow'}/${userId}`, authRequest());
+const follow = async userId => {
+    return axios.get(`/users/follow/${userId}`, authRequest());
 };
+
+const unfollow = async userId => {
+    return axios.get(`/users/unfollow/${userId}`, authRequest());
+}
 
 export default {
-    searchUsers,
-    getSelfFollowing,
-    getUserProfile,
-    handleFollow
+    search,
+    following,
+    followers,
+    profile,
+    follow,
+    unfollow
 }

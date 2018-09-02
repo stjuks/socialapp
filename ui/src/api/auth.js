@@ -9,12 +9,12 @@ const register = async (username, password) => {
     return axios.post('/auth/register', { username, password });
 };
 
-const verifyToken = async () => {
+const verify = async () => {
     return axios.get('/auth/verify', authRequest());
 };
 
 export default {
     login,
     register,
-    verifyToken
+    verify
 }

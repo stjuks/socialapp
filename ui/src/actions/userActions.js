@@ -1,4 +1,4 @@
-import API from '../api';
+import API from 'api';
 
 import {
     SEARCH_USERS,
@@ -7,11 +7,11 @@ import {
     FOLLOW_USER
 } from './types/user';
 
-export const searchUsers = (query) => {
-    return async (dispatch) => {
+export const searchUsers = query => {
+    return async dispatch => {
         try {
             dispatch(SEARCH_USERS.START);
-            const { data } = await API.searchUsers(query);
+            const { data } = await API.users.search(query);
 
             dispatch(SEARCH_USERS.SUCCESS(data));
         } catch (err) {
@@ -20,13 +20,11 @@ export const searchUsers = (query) => {
     }
 };
 
-export const getSelfFollowing = () => {
-    return async (dispatch, getState) => {
+export const getFollowing = userId => {
+    return async dispatch => {
         try {
-            const self = getState().user.self;
-
             dispatch(FETCH_SELF_FOLLOWING.START);
-            const { data } = await API.getSelfFollowing(self.userId);
+            const { data } = await API.users.following(userId);
 
             dispatch(FETCH_SELF_FOLLOWING.SUCCESS(data));
         } catch (err) {
@@ -35,12 +33,12 @@ export const getSelfFollowing = () => {
     }
 };
 
-export const getUserProfile = (username) => {
-    return async (dispatch) => {
+export const getUserProfile = userId => {
+    return async dispatch => {
         try {
             dispatch(FETCH_USER_PROFILE.START);
-            const { data } = await API.getUserProfile(username);
-            console.log(data);
+            const { data } = await API.users.profile(userId);
+            
             dispatch(FETCH_USER_PROFILE.SUCCESS(data));
         } catch (err) {
             dispatch(FETCH_USER_PROFILE.ERROR);
@@ -48,18 +46,22 @@ export const getUserProfile = (username) => {
     }
 };
 
-export const handleFollow = (userId, isFollowing) => {
-    return async (dispatch, getState) => {
+export const follow = userId => {
+    return async dispatch => {
         try {
-            let profile = Object.assign({}, getState().user.activeProfile);
-            profile.is_watcher_following = isFollowing ? 0 : 1;
-
-            dispatch(FOLLOW_USER.START);
-            await API.handleFollow(userId, isFollowing);
-        
-            dispatch(FOLLOW_USER.SUCCESS(profile));
+            await API.users.follow(userId);
         } catch (err) {
-            dispatch(FOLLOW_USER.ERROR);
+
         }
     }
-};
+}
+
+export const unfollow = userId => {
+    return async dispatch => {
+        try {
+            await API.users.unfollow(userId);
+        } catch (err) {
+
+        }
+    }
+}

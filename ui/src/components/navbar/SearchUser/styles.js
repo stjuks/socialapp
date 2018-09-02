@@ -4,6 +4,10 @@ export const SearchUserStyled = styled.div`
     width: 60%;
     display: flex;
     justify-content: center;
+
+    .popover-body {
+        padding: 0 !important;
+    }
 `;
 
 export const InputContainerStyled = styled.div`
@@ -41,4 +45,16 @@ export const SearchIconStyled = styled.div`
     svg { 
         fill: ${({ theme }) => theme.GREY_160()}; 
     }
+`;
+
+export const UserListItemStyled = styled.li`
+    ${({ theme }) => `
+        padding: .5rem 3rem;
+        cursor: pointer;
+        color: ${theme.SIDEBAR_1()};
+
+        :hover {
+            color: ${theme.SIDEBAR_1({ l: '50%' })};
+        }
+    `}
 `;

@@ -10,8 +10,9 @@ export const AuthFormStyled = styled.form`
         box-shadow: 2px 4px 4px ${theme.BLACK(.05)};
         height: 60%;
         padding: 30px;
-        min-height: 350px;
+        min-height: 450px;
         min-width: 300px;
+        max-height: 550px;
         background: ${theme.GREY_250()};
         border-radius: 5px;
         display: flex;

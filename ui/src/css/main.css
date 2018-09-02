@@ -10,6 +10,8 @@
 @import 'helpers/button.css';
 @import 'helpers/icon.css';*/
 
+@import 'bootstrap/popover.css';
+
 html {
     font-size: 12px !important;
 }
@@ -37,6 +39,8 @@ a:hover {
     text-decoration: none;
     color: inherit;
 }
+
+ul, li { list-style-type: none; margin: 0; padding: 0; }
 
 label { margin: 0; }
 

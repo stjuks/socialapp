@@ -6,16 +6,26 @@ import { NavbarStyled } from './styles';
 import SearchUser from 'components/navbar/SearchUser';
 import MenuBar from 'components/navbar/MenuBar';
 
-class Navbar extends Component {
+import { searchUsers } from 'actions/userActions';
 
+class Navbar extends Component {
     toggleModal = actionType => {
         this.props.dispatch(actionType);
     };
 
+    handleSearch = value => {
+        this.props.dispatch(searchUsers(value));
+    }
+
     render() {
+        const { searchResults } = this.props;
+
         return (
             <NavbarStyled>
-                <SearchUser />
+                <SearchUser 
+                    handleSearch={this.handleSearch}
+                    searchResults={searchResults}
+                />
                 <MenuBar
                     toggleModal={this.toggleModal}
                 />
@@ -24,4 +34,10 @@ class Navbar extends Component {
     }
 }
 
-export default connect()(Navbar);
+const mapStateToProps = store => {
+    return {
+        searchResults: store.user.userSearchResults
+    }
+}
+
+export default connect(mapStateToProps)(Navbar);

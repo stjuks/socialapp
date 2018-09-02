@@ -2,7 +2,6 @@ import history from 'helpers/history';
 
 import { routes } from 'helpers/constants';
 
-import { getSelfFollowing } from './userActions';
 import { LOGIN, REGISTER } from './types/auth';
 import { RESET_STATE } from './types';
 
@@ -13,12 +12,11 @@ export const login = (username, password) => {
         try {
             dispatch(LOGIN.START);
 
-            const { data } = await API.login(username, password);
+            const { data } = await API.auth.login(username, password);
 
             localStorage.setItem('social_token', data.token);
 
             dispatch(LOGIN.SUCCESS(data.user));
-            dispatch(getSelfFollowing());
 
             return true;
         } catch (err) {
@@ -33,7 +31,7 @@ export const register = (username, password) => {
         try {
             dispatch(REGISTER.START);
 
-            await API.register(username, password);
+            await API.auth.register(username, password);
 
             history.push(routes.login);
 
@@ -47,10 +45,9 @@ export const register = (username, password) => {
 export const verifyToken = () => {
     return async (dispatch) => {
         try {
-            const { data } = await API.verifyToken();
+            const { data } = await API.auth.verify();
 
             dispatch(LOGIN.SUCCESS(data.user));
-            dispatch(getSelfFollowing());
 
         } catch (err) {
             dispatch(LOGIN.ERROR(err.response.data.msg || ''));
