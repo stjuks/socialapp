@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import { LayoutStyled, ContentStyled } from './styles';
 
-import { verifyToken } from '../../actions/authActions';
+import { verifyToken } from 'actions/authActions';
 
 import Sidebar from '../Sidebar';
 import Feed from '../Feed';
@@ -25,7 +25,7 @@ class Layout extends Component {
                     <Navbar />
                     <Switch>
                         <Route exact path="/" component={Feed} />
-                        <Route path="/:username" component={UserProfile}/>
+                        <Route path="/:username" component={UserProfile} />
                     </Switch>
                 </ContentStyled>
             </LayoutStyled>

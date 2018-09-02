@@ -3,27 +3,25 @@ const router = express.Router();
 
 const mysql = require('mysql');
 
-const authHelper = require('../helpers/auth');
+const { authHelper } = require('../helpers');
 const db = require('../db');
-const { users } = require('../db/queries');
+const { Users } = require('../db/queries');
 
 router.get('/follow/:followingId', authHelper.verifyToken, (req, res) => {
 	const { followingId } = req.params;
 	const { user } = req;
 
-	if (user.id === followingId) {
-		res.status(400).json({ msg: 'You can not follow yourself!' });
-		return;
+	if (user.userId === followingId) {
+		return res.status(400).json({ msg: 'You can not follow yourself!' });
 	}
 
-	const sql = users.follow(user.user_id, followingId);
+	const sql = Users.follow(user.userId, followingId);
 
 	db.query(sql, (err, result) => {
 		if (err) {
-			res.status(400).json({ msg: 'User does not exist or you already follow this user!' });
-			return;
+			return res.status(400).json({ msg: 'User does not exist or you already follow this user!' });
 		}
-		res.json({ msg: `You just followed user ${followingId}`});
+		res.end();
 	});
 
 });
@@ -32,19 +30,18 @@ router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
 	const { followingId } = req.params;
 	const { user } = req;
 
-	if (user.id === followingId) {
+	if (user.userId === followingId) {
 		res.status(400).json({ msg: 'You can not unfollow yourself!' });
 		return;
 	}
 
-	const sql = users.unfollow(user.user_id, followingId);
+	const sql = Users.unfollow(user.userId, followingId);
 
 	db.query(sql, (err, result) => {
 		if (err || result.affectedRows === 0) {
-			res.status(400).json({ msg: 'User does not exist or you are not following this user!' });
-			return;
+			return res.status(400).json({ msg: 'User does not exist or you are not following this user!' });
 		}
-		res.json({ msg: `You just unfollowed user ${followingId}`})
+		res.end();
 	})
 
 });
@@ -52,7 +49,7 @@ router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
 router.get('/followers/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = users.getFollowers(userId);
+	const sql = Users.getFollowers(userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
@@ -63,7 +60,7 @@ router.get('/followers/:userId', (req, res) => {
 router.get('/following/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = users.getFollowing(userId);
+	const sql = Users.getFollowing(userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;

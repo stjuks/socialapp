@@ -10,7 +10,8 @@ const INITIAL_STATE = {
         username: '',
         posts: [],
         follower_count: 0,
-        following_count: 0
+        following_count: 0,
+        is_watcher_following: false
     }
 };
 
@@ -23,7 +24,7 @@ export default function reducer(state=INITIAL_STATE, action) {
                 self: {
                     ...state.self,
                     username: action.payload.username,
-                    userId: action.payload.user_id
+                    userId: action.payload.userId
                 }
             }
         }

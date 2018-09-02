@@ -1,38 +1,34 @@
 const express = require('express');
 const router = express.Router();
 
-const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
 
 const config = require('../config');
-const authHelper = require('../helpers/auth');
+const { authHelper, fileHelper } = require('../helpers');
 const db = require('../db');
-const { posts } = require('../db/queries');
+const { Posts } = require('../db/queries');
 
-const upload = multer({ storage: config.storage, limits: config.limits });
+const upload = config.fileUpload;
 
-router.post('/create', authHelper.verifyToken, upload.single('image'), (req, res) => {
-	const { caption } = req.body;
-	const { user, file, fileValidationError } = req;
+router.post('/create', authHelper.verifyToken, upload.single('image'), 
+	fileHelper.uploadImage('uploads/posts'),
+	(req, res) => {
+		const { caption } = req.body;
+		const { user, file } = req;
+		
+		const sql = Posts.create(user.userId, caption, file.filename);
 
-	if (fileValidationError) {
-		return res.status(400).json({ msg: fileValidationError });
-	}
-
-	const sql = posts.create(user.user_id, caption, file.filename);
-
-	db.query(sql, (err, result) => {
-		if (err) res.status(400).json({ msg: 'Error creating post!' });
-		res.json({ msg: 'Post successfully added!' });
-	})
+		db.query(sql, (err, result) => {
+			if (err) res.status(400).json({ msg: 'Error creating post!' });
+			res.end();
+		})
 });
 
 router.get('/image/:imageName', (req, res) => {
 	const { imageName } = req.params;
 	
-	const pathName = path.join(__dirname, '/../uploads/', imageName);
+	const pathName = path.join(__dirname, '/../uploads/posts', imageName);
 	const img = fs.readFileSync(pathName);
 
 	if (img) {
@@ -46,7 +42,7 @@ router.get('/image/:imageName', (req, res) => {
 router.get('/get/:userId', (req, res) => {
 	const { userId } = req.params;
 
-	const sql = posts.get(userId);
+	const sql = Posts.get(userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
@@ -57,26 +53,70 @@ router.get('/get/:userId', (req, res) => {
 router.get('/following', authHelper.verifyToken, (req, res) => {
 	const { user } = req;
 
-	const sql = posts.getFollowing(user.user_id);
+	const sql = Posts.getFollowing(user.userId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
 		res.json(result.rows);
 	});
-
 });
 
 router.post('/like', authHelper.verifyToken, (req, res) => {
 	const { user } = req;
 	const { isLike, postId } = req.body;
 
-	let sql = isLike ? posts.like(user.user_id, postId) : posts.dislike(user.user_id, postId);
+	let sql = isLike ? Posts.like(user.userId, postId) : Posts.dislike(user.userId, postId);
 
 	db.query(sql, (err, result) => {
 		if (err) throw err;
-		res.json({})
-	})
+		res.end();
+	});
+});
 
+router.post('/comment', authHelper.verifyToken, (req, res) => {
+	const { user } = req;
+	const { postId, content } = req.body;
+
+	let sql = Posts.comment(postId, user.userId, content);
+
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		res.end();
+	});
+});
+
+router.post('/comment/reply', authHelper.verifyToken, (req, res) => {
+	const { user } = req;
+	const { postId, content, parentId } = req.body;
+	
+	let sql = Posts.reply(postId, user.userId, content, parentId);
+
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		res.end();
+	})
+});
+
+router.get('/comments', (req, res) => {
+	const { postId } = req.query;
+
+	const sql = Posts.getComments(postId);
+
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		res.json(result.rows);
+	});
+});
+
+router.get('/comments/replies', (req, res) => {
+	const { parentId } = req.query;
+
+	const sql = Posts.getReplies(parentId);
+
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		res.json(result.rows);
+	});
 });
 
 module.exports = router;

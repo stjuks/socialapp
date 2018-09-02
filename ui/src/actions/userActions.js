@@ -56,7 +56,7 @@ export const handleFollow = (userId, isFollowing) => {
 
             dispatch(FOLLOW_USER.START);
             await API.handleFollow(userId, isFollowing);
-
+        
             dispatch(FOLLOW_USER.SUCCESS(profile));
         } catch (err) {
             dispatch(FOLLOW_USER.ERROR);
