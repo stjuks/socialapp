@@ -21,7 +21,7 @@ router.post('/create', authHelper.verifyToken, upload.single('image'),
         
         db.query(sql, (err, result) => {
             if (err) res.status(400).json({ msg: 'Error creating post!' });
-            res.end();
+            res.json(result.rows);
         })
 });
 
@@ -46,7 +46,7 @@ router.get('/get/:userId', (req, res) => {
 
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.json(result.rows);
+        res.json(result.rows[0].result);
     })
 });
 
@@ -56,8 +56,9 @@ router.get('/following', authHelper.verifyToken, (req, res) => {
     const sql = Posts.getFollowing(user.userId);
 
     db.query(sql, (err, result) => {
+        db.release();
         if (err) throw err;
-        res.json(result.rows);
+        res.json(result.rows[0].result);
     });
 });
 

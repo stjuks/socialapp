@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { SETTINGS } from 'actions/types/modal';
+import { SETTINGS } from 'actions/types';
 import { logout } from 'actions/authActions';
 
 import Icon from 'styled/Icon';

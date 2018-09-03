@@ -6,34 +6,34 @@ const db = require('../db');
 const { Users } = require('../db/queries');
 
 router.get('/search', (req, res) => {
-	const { query } = req.query;
+    const { query } = req.query;
 
-	if (query.length === 0) {
-		return res.json([]);
-	}
+    if (query.length === 0) {
+        return res.json([]);
+    }
 
-	const sql = Users.search(query);
+    const sql = Users.search(query);
 
-	db.query(sql, (err, result) => {
-		if (err) throw err;
-		res.json(result.rows);
-	})
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result.rows);
+    })
 });
 
 router.get('/get/:userId', authHelper.verifyToken, (req, res) => {
-	const { userId } = req.params;
-	const { user } = req;
+    const { userId } = req.params;
+    const { user } = req;
 
-	let sql = Users.getProfile(user.userId, userId);
+    let sql = Users.getProfile(user.userId, userId);
 
-	db.query(sql, (err, result) => {
-		if (err) throw err;
+    db.query(sql, (err, result) => {
+        if (err) throw err;
 
-		if (result.rows.length === 0) return res.status(404).json({ msg: 'No user found!' });
+        if (result.rows.length === 0) return res.status(404).json({ msg: 'No user found!' });
 
-		const user = result.rows[0];
-		res.json(user);
-	})
+        const user = result.rows[0];
+        res.json(user);
+    })
 });
 
 module.exports = router;

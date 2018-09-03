@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Icon from 'styled/Icon';
 import { MenuBarStyled } from './styles';
 
-import { SETTINGS, UPLOAD } from 'actions/types/modal';
+import { SETTINGS, UPLOAD } from 'actions/types';
 
 class SearchUser extends Component {
     render() {

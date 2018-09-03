@@ -1,5 +1,5 @@
-import { FETCH_FOLLOWING_POSTS } from './types/posts';
-import API from '../api';
+import { FETCH_FOLLOWING_POSTS } from './types';
+import API from 'api';
 
 export const getFollowingPosts = () => {
     return async dispatch => {

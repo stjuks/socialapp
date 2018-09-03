@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as loadImage from 'blueimp-load-image-npm';
-import { UPLOAD } from 'actions/types/modal';
+import { UPLOAD } from 'actions/types';
 
 import Icon from 'styled/Icon';
 

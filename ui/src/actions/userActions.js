@@ -5,7 +5,7 @@ import {
     FETCH_SELF_FOLLOWING,
     FETCH_USER_PROFILE,
     FOLLOW_USER
-} from './types/user';
+} from './types';
 
 export const searchUsers = query => {
     return async dispatch => {

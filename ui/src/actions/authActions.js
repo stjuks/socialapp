@@ -2,8 +2,7 @@ import history from 'helpers/history';
 
 import { routes } from 'helpers/constants';
 
-import { LOGIN, REGISTER } from './types/auth';
-import { RESET_STATE } from './types';
+import { LOGIN, REGISTER, RESET_STATE } from './types';
 
 import API from 'api';
 

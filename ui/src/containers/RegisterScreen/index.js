@@ -8,7 +8,7 @@ import RegisterForm from 'components/auth/RegisterForm';
 import { RegisterScreenStyled } from './styles';
 import { register } from 'actions/authActions';
 
-import { REGISTER } from 'actions/types/auth';
+import { REGISTER } from 'actions/types';
 
 class RegisterScreen extends Component {
     state = {
