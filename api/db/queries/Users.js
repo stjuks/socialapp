@@ -44,8 +44,8 @@ module.exports = {
     search: query => ({
         text: `
             SELECT username, user_id FROM users 
-            WHERE username LIKE %$1%
+            WHERE username LIKE LOWER($1)
             ORDER BY username LIMIT 20;
-        `, values: [query]
+        `, values: [`%${query}%`]
     })
 };

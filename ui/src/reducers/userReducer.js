@@ -1,33 +1,36 @@
+import {
+    FETCH_USER_PROFILE,
+    SEARCH_USERS,
+    FOLLOW_USER,
+    LOGIN,
+    FETCH_SELF_FOLLOWING
+} from 'actions/types';
+
 const INITIAL_STATE = {
     self: {
         username: '',
         userId: 0,
-        following: []
+        following: [],
+        isLoggedIn: false
     },
     userSearchResults: [],
-    activeProfile: {
-        userId: 0,
-        username: '',
-        posts: [],
-        follower_count: 0,
-        following_count: 0,
-        is_watcher_following: false
-    }
+    profiles: {}
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
     switch (action.type) {
-        case 'LOGIN_SUCCESS': {
+        case LOGIN.SUCCESS().type: {
             return {
                 ...state,
                 self: {
                     ...state.self,
                     username: action.payload.username,
-                    userId: action.payload.userId
+                    userId: action.payload.userId,
+                    isLoggedIn: true
                 }
             }
         }
-        case 'FETCH_SELF_FOLLOWING_SUCCESS': {
+        case FETCH_SELF_FOLLOWING.SUCCESS().type: {
             return {
                 ...state,
                 self: {
@@ -36,19 +39,22 @@ export default function reducer(state=INITIAL_STATE, action) {
                 }
             }
         }
-        case 'FETCH_USER_PROFILE_SUCCESS': {
+        case FETCH_USER_PROFILE.SUCCESS().type: {
             return {
                 ...state,
-                activeProfile: action.payload
+                profiles: {
+                    ...state.profiles,
+                    [action.key]: action.payload
+                }
             }
         }
-        case 'SEARCH_USERS_SUCCESS': {
+        case SEARCH_USERS.SUCCESS().type: {
             return {
                 ...state,
                 userSearchResults: action.payload
             }
         }
-        case 'FOLLOW_USER_SUCCESS': {
+        case FOLLOW_USER.SUCCESS.type: {
             return {
                 ...state,
                 activeProfile: action.payload

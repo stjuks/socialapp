@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getFollowingPosts } from 'actions/postActions';
+import { getFeedPosts } from 'actions/postActions';
 
 import { FeedStyled } from './styles';
 import Posts from 'components/Posts';
 
 class Feed extends Component {
     componentDidMount() {
-        this.props.dispatch(getFollowingPosts());
+        this.props.dispatch(getFeedPosts());
     }
 
     render() {
-        const { followingPosts } = this.props;
+        const { feed } = this.props;
 
         return (
             <FeedStyled>
                 <Posts
-                    posts={followingPosts}
+                    posts={feed}
                 />
             </FeedStyled>
         );
@@ -26,7 +26,7 @@ class Feed extends Component {
 
 const mapStateToProps = store => {
     return {
-        followingPosts: store.posts.followingPosts
+        feed: store.posts.feed
     }
 };
 

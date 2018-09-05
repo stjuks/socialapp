@@ -19,7 +19,7 @@ class PostItem extends Component {
     };
 
     render() {
-        const { img, username, caption, timestamp, likeCount } = this.props;
+        const { img, username, caption, timestamp, likeCount, commentCount } = this.props;
         const { isImageLoaded } = this.state;
 
         return (
@@ -38,7 +38,7 @@ class PostItem extends Component {
                             <Icon type="heart" /> {likeCount}
                         </DetailContainer>
                         <DetailContainer>
-                            <Icon type="chat" /> 0
+                            <Icon type="chat" /> {commentCount}
                         </DetailContainer>
                         <p>{caption}</p>
                     </PostDetailsStyled>

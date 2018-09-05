@@ -19,6 +19,7 @@ class Posts extends Component {
                         caption={post.caption}
                         timestamp={post.timestamp}
                         username={post.username}
+                        commentCount={post.comments.length}
                     />
                 )}
             </PostsStyled>

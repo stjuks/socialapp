@@ -42,14 +42,12 @@ export const register = (username, password) => {
 };
 
 export const verifyToken = () => {
-    return async (dispatch) => {
+    return async dispatch => {
         try {
             const { data } = await API.auth.verify();
-
             dispatch(LOGIN.SUCCESS(data.user));
-
+            history.push(routes.app);
         } catch (err) {
-            dispatch(LOGIN.ERROR(err.response.data.msg || ''));
             history.push(routes.login);
         }
     }

@@ -1,15 +1,15 @@
-import { FETCH_FOLLOWING_POSTS } from './types';
+import { FETCH_FEED } from './types';
 import API from 'api';
 
-export const getFollowingPosts = () => {
+export const getFeedPosts = () => {
     return async dispatch => {
         try {
-            dispatch(FETCH_FOLLOWING_POSTS.START);
+            dispatch(FETCH_FEED.START);
             let { data } = await API.posts.following();
 
-            dispatch(FETCH_FOLLOWING_POSTS.SUCCESS(data));
+            dispatch(FETCH_FEED.SUCCESS(data));
         } catch (err) {
-            dispatch(FETCH_FOLLOWING_POSTS.ERROR());
+            dispatch(FETCH_FEED.ERROR());
         }
     }
 };
@@ -27,7 +27,11 @@ export const getPosts = userId => {
 export const createPost = (image, caption) => {
     return async dispatch => {
         try {
-            await API.posts.create(image, caption);
+            let formData = new FormData();
+            formData.append('image', image, image.name);
+            formData.append('caption', caption);
+            
+            await API.posts.create(formData);
         } catch (err) {
 
         }

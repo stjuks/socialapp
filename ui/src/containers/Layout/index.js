@@ -4,33 +4,35 @@ import { Switch, Route } from 'react-router-dom';
 
 import { LayoutStyled, ContentStyled } from './styles';
 
-import { verifyToken } from 'actions/authActions';
-
 import Sidebar from '../Sidebar';
 import Feed from '../Feed';
 import UserProfile from '../UserProfile';
 import Navbar from '../Navbar';
 
 class Layout extends Component {
-    componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch(verifyToken());
-    }
-
     render() {
+        const { self } = this.props;
+
         return (
+            self.isLoggedIn ?
             <LayoutStyled>
-                <Sidebar />
-                <ContentStyled>
-                    <Navbar />
-                    <Switch>
-                        <Route exact path="/" component={Feed} />
-                        <Route path="/:username" component={UserProfile} />
-                    </Switch>
-                </ContentStyled>
-            </LayoutStyled>
+                    <Sidebar />
+                    <ContentStyled>
+                        <Navbar />
+                        <Switch>
+                            <Route exact path="/" component={Feed} />
+                            <Route path="/:username" component={UserProfile} />
+                        </Switch>
+                    </ContentStyled>
+            </LayoutStyled> : null
         );
     }
 }
 
-export default connect()(Layout);
+const mapStateToProps = store => {
+    return {
+        self: store.user.self
+    }
+}
+
+export default connect(mapStateToProps)(Layout);

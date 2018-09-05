@@ -16,7 +16,7 @@ class LoginScreen extends Component {
         isSuccess: null
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         const { dispatch } = this.props;
         const { username, password } = this.state;
@@ -30,7 +30,7 @@ class LoginScreen extends Component {
         }, 200);
     };
 
-    handleChange = (e) => {
+    handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
 

@@ -1,6 +1,6 @@
 import {
-    FETCH_FOLLOWING_POSTS,
-    FETCH_POSTS,
+    FETCH_FEED,
+    FETCH_USER_POSTS,
     FETCH_COMMENTS,
     FETCH_REPLIES,
     CREATE_POST,
@@ -8,34 +8,34 @@ import {
     DISLIKE_POST,
     COMMENT,
     REPLY,
-    RESET_STATE
+    RESET_STATE,
+    SET_ACTIVE_POST
 } from 'actions/types';
 
 const INITIAL_STATE = {
-    followingPosts: [],
-    posts: {
-        32: {
-            image: 'asdasdasd.png',
-            caption: 'lololol',
-            timestamp: '10:02:29 05.05.2018',
-            comments: [
-
-            ]
-        }
-    }
+    feed: [],
+    activePost: {},
+    userPosts: {}
 };
 
-export default reducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
-        case FETCH_FOLLOWING_POSTS.SUCCESS().type: {
+        case FETCH_FEED.SUCCESS().type: {
             return {
-                ...state, followingPosts: action.payload
+                ...state,
+                feed: [...state.feed, ...action.payload]
             }
         }
-        case FETCH_POSTS.SUCCESS().type: {
+        case FETCH_USER_POSTS.SUCCESS().type: {
             return {
-                ...state
+                ...state,
+                userPosts: {
+                    ...state.userPosts, 
+                    [action.key]: state.userPosts[action.key] ? 
+                        [...state.userPosts[action.key], ...action.payload] : 
+                        action.payload 
+                }
             }
         }
         case FETCH_COMMENTS.SUCCESS().type: {
@@ -46,6 +46,11 @@ export default reducer = (state = INITIAL_STATE, action) => {
         case FETCH_REPLIES.SUCCESS().type: {
             return {
                 ...state
+            }
+        }
+        case SET_ACTIVE_POST().type: {
+            return {
+                ...state, activePost: action.payload
             }
         }
         case RESET_STATE.type: {

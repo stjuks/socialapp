@@ -48,6 +48,7 @@ module.exports = {
                     jsonb_build_object(
                         'post_id', post_id, 
                         'user_id', user_id,
+                        'username', username,
                         'timestamp', timestamp,
                         'caption', caption,
                         'image', image,
@@ -57,6 +58,7 @@ module.exports = {
                 FROM (
                     SELECT
                         p.*,
+                        (SELECT username FROM users WHERE user_id=p.user_id),
                         (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
                         jsonb_build_object(
                             'comment_id', c.comment_id,
@@ -70,9 +72,9 @@ module.exports = {
                         SELECT * FROM comments WHERE post_id=p.post_id ORDER BY timestamp DESC LIMIT 15
                     ) c ON true)
                     LEFT JOIN followers f ON p.user_id=f.following_id
-                    WHERE f.follower_id=4
+                    WHERE f.follower_id=$1
                 ) p
-                GROUP BY post_id, user_id, timestamp, caption, image, like_count
+                GROUP BY post_id, user_id, username, timestamp, caption, image, like_count
             ) p;
         `, values: [userId] 
     }),

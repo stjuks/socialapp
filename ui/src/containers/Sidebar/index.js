@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { SidebarStyled } from './styles';
+import { getFollowing } from 'actions/userActions';
 
+import { SidebarStyled } from './styles';
 import UserStatus from 'components/sidebar/UserStatus';
 import ContactList from 'components/sidebar/ContactList';
 
 class Sidebar extends Component {
+    componentDidMount() {
+        const { dispatch, self } = this.props;
+        dispatch(getFollowing(self.userId));
+    }
+
     render() {
         const { self } = this.props;
 

@@ -1,9 +1,13 @@
 import { authRequest } from './index';
 import axios from 'axios';
 
-const create = async (image, caption) => {
-    return axios.post('/posts/create', authRequest({
-        data: { image, caption }
+const create = async formData => {
+    return axios('/posts/create', authRequest({
+        method: 'post',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        data: formData
     }));
 };
 

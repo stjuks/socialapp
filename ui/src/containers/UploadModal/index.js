@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as loadImage from 'blueimp-load-image-npm';
+
+import { createPost } from 'actions/postActions';
 import { UPLOAD } from 'actions/types';
 
 import Icon from 'styled/Icon';
+import Input from 'styled/Input';
 
 import {
     ModalStyled,
@@ -18,30 +22,54 @@ import {
 
 class UploadModal extends Component {
     state = {
-        image: [],
-        loadedImage: ''
+        caption: '',
+        image: []
     };
 
     handleChange = e => {
-        const value = e.target.files[0] ? e.target.files[0] : e.target.value;
-        console.log(value);
-        this.setState({ [e.target.name]: value })
+        this.setState({ [e.target.name]: e.target.value })
     };
 
     handleImage = e => {
         if (e.target.files && e.target.files[0]) {
-            let reader = new FileReader();
+            const image = e.target.files[0];
 
+            this.setState({ image });
+            
+            loadImage.parseMetaData(image, data => {
+                loadImage(image, img => {
+                    let node = ReactDOM.findDOMNode(this.imageContainer);
+                    node.childNodes[0] && node.removeChild(node.childNodes[0]);
+                    node.appendChild(img);
+                }, { orientation: data.exif && data.exif.get('Orientation') });
+            })
+            /*loadImage(image, img => {
+                this.setState({ loadedImage: image });
+                ReactDOM.findDOMNode(this.imageContainer).appendChild(img);
+            },  { orientation: true, maxHeight: 300, maxWidth: 300 });
+            /*const image = e.target.files[0];
+
+            let reader = new FileReader();
+            this.setState({ image: image });
             reader.onload = evt => {
                 this.setState({ loadedImage: evt.target.result });
             };
 
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(image);*/
         }
     };
 
+    onSubmit = () => {
+        const { image, caption } = this.state;
+        const { dispatch } = this.props;
+
+        dispatch(createPost(image, caption));
+        dispatch(UPLOAD.CLOSE);
+    }
+
     render() {
         const { isOpen, dispatch } = this.props;
+        const { caption, loadedImage } = this.state;
 
         return (
             <ModalStyled width="60%" isOpen={isOpen} toggle={() => dispatch(UPLOAD.CLOSE)}>
@@ -50,9 +78,11 @@ class UploadModal extends Component {
                 </ModalHeaderStyled>
                 <ModalBodyStyled>
                     <ImageContainer>
-                        <img src={this.state.loadedImage} />
+                        <div ref={el => this.imageContainer = el} />
                     </ImageContainer>
                     <FileInputStyled name="image" onChange={e => this.handleImage(e)} type="file" />
+                    <Input label="Caption" value={caption} name="caption" onChange={e => this.handleChange(e)} />
+                    <button onClick={() => this.onSubmit()}>Create post</button>
                 </ModalBodyStyled>
             </ModalStyled>
         );

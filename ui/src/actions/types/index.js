@@ -1,6 +1,6 @@
 const fetchAction = name => ({
     START: { type: `${name}_START` },
-    SUCCESS: payload => ({ type: `${name}_SUCCESS`, payload }),
+    SUCCESS: (payload, key) => ({ type: `${name}_SUCCESS`, payload, key }),
     ERROR: payload => ({ type: `${name}_ERROR`, payload })
 });
 
@@ -26,8 +26,8 @@ export const UPLOAD = modalAction('UPLOAD');
 export const SETTINGS = modalAction('SETTINGS');
 
 // posts
-export const FETCH_FOLLOWING_POSTS = fetchAction('FETCH_FOLLOWING_POSTS');
-export const FETCH_POSTS = fetchAction('FETCH_POSTS');
+export const FETCH_FEED = fetchAction('FETCH_FEED');
+export const FETCH_USER_POSTS = fetchAction('FETCH_USER_POSTS');
 export const FETCH_COMMENTS = fetchAction('FETCH_COMMENTS');
 export const FETCH_REPLIES = fetchAction('FETCH_REPLIES');
 export const CREATE_POST = voidAction('CREATE_POST');
@@ -35,6 +35,7 @@ export const LIKE_POST = voidAction('LIKE_POST');
 export const DISLIKE_POST = voidAction('DISLIKE_POST');
 export const COMMENT = voidAction('COMMENT');
 export const REPLY = voidAction('REPLY');
+export const SET_ACTIVE_POST = payload => ({ type: 'SET_ACTIVE_POST', payload });
 
 // users
 export const SEARCH_USERS = fetchAction('SEARCH_USERS');
