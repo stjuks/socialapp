@@ -4,6 +4,7 @@ export const SearchUserStyled = styled.div`
     width: 60%;
     display: flex;
     justify-content: center;
+    height: 3rem;
 
     .popover-body {
         padding: 0 !important;

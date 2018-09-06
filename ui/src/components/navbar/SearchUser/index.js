@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Popover, PopoverBody } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import {
     SearchUserStyled,
@@ -53,13 +54,15 @@ class SearchUser extends Component {
                     toggle={this.togglePopover} 
                     placement="bottom" 
                     target="searchUsers"
-                    isOpen={isPopoverOpen && query.length > 0} 
+                    isOpen={isPopoverOpen && query.length > 1} 
                 >
                     <PopoverBody>
                         <ul>
                             {searchResults.map(result => (
                                 <UserListItemStyled key={result.id}>
-                                    {result.username}
+                                    <Link to={`/${result.username}`}>
+                                        {result.username}
+                                    </Link>
                                 </UserListItemStyled>
                             ))}
                         </ul>

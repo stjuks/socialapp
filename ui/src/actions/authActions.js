@@ -41,12 +41,12 @@ export const register = (username, password) => {
     }
 };
 
-export const verifyToken = () => {
+export const verifyToken = redirectPath => {
     return async dispatch => {
         try {
             const { data } = await API.auth.verify();
             dispatch(LOGIN.SUCCESS(data.user));
-            history.push(routes.app);
+            history.push(redirectPath);
         } catch (err) {
             history.push(routes.login);
         }

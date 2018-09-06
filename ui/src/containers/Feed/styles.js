@@ -5,6 +5,7 @@ export const FeedStyled = ScreenContainer.extend`
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    flex: 1;
     
     @media only screen and (max-width: 640px) {
         flex-direction: column;

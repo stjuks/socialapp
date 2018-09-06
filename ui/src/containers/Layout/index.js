@@ -20,7 +20,7 @@ class Layout extends Component {
                     <ContentStyled>
                         <Navbar />
                         <Switch>
-                            <Route exact path="/" component={Feed} />
+                            <Route exact path="/" component={UserProfile} />
                             <Route path="/:username" component={UserProfile} />
                         </Switch>
                     </ContentStyled>
