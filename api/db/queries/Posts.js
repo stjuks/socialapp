@@ -12,6 +12,7 @@ module.exports = {
                 (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
             FROM posts p JOIN users u ON p.user_id=u.user_id
             WHERE u.username=$1
+            ORDER BY p.timestamp DESC;
         `, values: [username] 
     }),
     getFollowing: userId => ({
@@ -21,6 +22,7 @@ module.exports = {
                 (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
             FROM (posts p JOIN users u ON p.user_id=u.user_id) LEFT JOIN followers f ON p.user_id=f.following_id
             WHERE f.follower_id=$1
+            ORDER BY p.timestamp DESC;
         `, values: [userId] 
     }),
     like: (userId, postId) => ({

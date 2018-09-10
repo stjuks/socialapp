@@ -43,6 +43,7 @@ export const PostImageWrapper = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
         
         ${!isImageLoaded ? `
             animation: ${loadImage} 5s linear infinite;
@@ -61,9 +62,9 @@ export const PostImageWrapper = styled.div`
 `;
 
 export const PostImage = styled.img`
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
 export const PostNameStyled = styled.div`

@@ -11,7 +11,7 @@ export const UserProfileStyled = ScreenContainer.extend`
 `;
 
 export const DividerStyled = styled.hr`
-    margin: 3rem 0 5px 0;
+    margin: 1.5rem 0 5px 0;
     border-color: ${({ theme }) => theme.BLACK(.05)};
     width: 100%;
 `

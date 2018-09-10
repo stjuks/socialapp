@@ -6,11 +6,12 @@ import {
     FETCH_SELF_FOLLOWING,
     SET_ACTIVE_PROFILE
 } from 'actions/types';
+import { UNFOLLOW_USER } from '../actions/types';
 
 const INITIAL_STATE = {
     self: {
         username: '',
-        userId: 0,
+        user_id: 0,
         following: [],
         isLoggedIn: false
     },
@@ -27,7 +28,7 @@ export default function reducer(state=INITIAL_STATE, action) {
                 self: {
                     ...state.self,
                     username: action.payload.username,
-                    userId: action.payload.userId,
+                    user_id: action.payload.user_id,
                     isLoggedIn: true
                 }
             }
@@ -56,10 +57,40 @@ export default function reducer(state=INITIAL_STATE, action) {
                 userSearchResults: action.payload
             }
         }
-        case FOLLOW_USER.SUCCESS.type: {
+        case FOLLOW_USER().type: {
             return {
                 ...state,
-                activeProfile: action.payload
+                activeProfile: {
+                    ...state.activeProfile,
+                    is_watcher_following: true
+                },
+                self: {
+                    ...state.self,
+                    following: [
+                        ...state.self.following,
+                        action.payload
+                    ]
+                }
+            }
+        }
+        case UNFOLLOW_USER().type: {
+            return {
+                ...state,
+                activeProfile: {
+                    ...state.activeProfile,
+                    is_watcher_following: false
+                },
+                self: {
+                    ...state.self,
+                    following: [
+                        ...state.self.following.slice(
+                            0, state.self.following.findIndex(user => user.user_id === action.payload)
+                        ),
+                        ...state.self.following.slice(
+                            state.self.following.findIndex(user => user.user_id === action.payload) + 1
+                        )
+                    ]
+                }
             }
         }
         case SET_ACTIVE_PROFILE().type: {

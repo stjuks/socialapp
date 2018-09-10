@@ -24,7 +24,7 @@ router.get('/get/:username', authHelper.verifyToken, (req, res) => {
     const { username } = req.params;
     const { user } = req;
 
-    let sql = Users.getProfile(user.userId, username);
+    let sql = Users.getProfile(user.user_id, username);
 
     db.query(sql, (err, result) => {
         if (err) throw err;

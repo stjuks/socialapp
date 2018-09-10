@@ -10,7 +10,7 @@ import ContactList from 'components/sidebar/ContactList';
 class Sidebar extends Component {
     componentDidMount() {
         const { dispatch, self } = this.props;
-        dispatch(getFollowing(self.userId));
+        dispatch(getFollowing(self.user_id));
     }
 
     render() {

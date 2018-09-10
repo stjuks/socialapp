@@ -11,11 +11,11 @@ router.get('/follow/:followingId', authHelper.verifyToken, (req, res) => {
     const { followingId } = req.params;
     const { user } = req;
 
-    if (user.userId === followingId) {
+    if (user.user_id === followingId) {
         return res.status(400).json({ msg: 'You can not follow yourself!' });
     }
 
-    const sql = Users.follow(user.userId, followingId);
+    const sql = Users.follow(user.user_id, followingId);
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -30,12 +30,12 @@ router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
     const { followingId } = req.params;
     const { user } = req;
 
-    if (user.userId === followingId) {
+    if (user.user_id === followingId) {
         res.status(400).json({ msg: 'You can not unfollow yourself!' });
         return;
     }
 
-    const sql = Users.unfollow(user.userId, followingId);
+    const sql = Users.unfollow(user.user_id, followingId);
 
     db.query(sql, (err, result) => {
         if (err || result.affectedRows === 0) {

@@ -26,6 +26,7 @@ export const ProfilePictureStyled = styled.img`
 
         @media only screen and (max-width: ${theme.BREAKPOINT}) {
             margin: 0;
+            margin-bottom: 1rem;
         }
     `}
 `;

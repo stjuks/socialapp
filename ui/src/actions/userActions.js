@@ -5,6 +5,7 @@ import {
     FETCH_SELF_FOLLOWING,
     FETCH_USER_PROFILE,
     FOLLOW_USER,
+    UNFOLLOW_USER,
     SET_ACTIVE_PROFILE
 } from './types';
 
@@ -48,14 +49,11 @@ export const getUserProfile = username => {
     }
 };
 
-export const follow = userId => {
+export const follow = user => {
     return async (dispatch, getState) => {
         try {
-            await API.users.follow(userId);
-            let profile = Object.assign({}, getState().user.activeProfile);
-            profile.is_watcher_following = true;
-            dispatch(FETCH_USER_PROFILE.SUCCESS(profile, profile.username));
-            dispatch(SET_ACTIVE_PROFILE(profile));
+            await API.users.follow(user.user_id);
+            dispatch(FOLLOW_USER(user))
         } catch (err) {
 
         }
@@ -66,10 +64,7 @@ export const unfollow = userId => {
     return async (dispatch, getState) => {
         try {
             await API.users.unfollow(userId);
-            let profile = Object.assign({}, getState().user.activeProfile);
-            profile.is_watcher_following = false;
-            dispatch(FETCH_USER_PROFILE.SUCCESS(profile, profile.username));
-            dispatch(SET_ACTIVE_PROFILE(profile));
+            dispatch(UNFOLLOW_USER(userId));
         } catch (err) {
 
         }

@@ -11,10 +11,6 @@ import UserProfile from '../UserProfile';
 import Navbar from '../Navbar';
 
 class Layout extends Component {
-    componentDidMount() {
-        console.log(this.props);
-    }
-
     render() {
         const { self } = this.props;
 

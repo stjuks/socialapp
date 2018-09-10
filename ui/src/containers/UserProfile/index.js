@@ -14,7 +14,7 @@ import {
 } from './styles';
 
 class UserProfile extends Component {
-    async componentDidMount() {
+    componentDidMount() {
         const { dispatch, match } = this.props;
         dispatch(getUserProfile(match.params.username));
         dispatch(getPosts(match.params.username));
@@ -22,9 +22,10 @@ class UserProfile extends Component {
 
     handleFollow = isFollow => {
         const { dispatch, profile } = this.props;
+        const user = { user_id: profile.user_id, username: profile.username };
         dispatch(isFollow ? 
-            follow(profile.user_id) : 
-            unfollow(profile.user_id)
+            follow(user) : 
+            unfollow(user.user_id)
         );
     }
 
@@ -32,6 +33,7 @@ class UserProfile extends Component {
         const { profile, userPosts, self } = this.props;
 
         return (
+            Object.keys(profile).length > 0 ?
             <UserProfileStyled>
                 <ProfileDetails
                     isWatcherFollowing={profile.is_watcher_following}
@@ -40,13 +42,13 @@ class UserProfile extends Component {
                     followingCount={profile.following_count}
                     username={profile.username}
                     handleFollow={this.handleFollow}
-                    isSelf={profile.user_id === self.userId}
+                    isSelf={profile.user_id === self.user_id}
                 />
                 <DividerStyled />
                 <Posts
                     posts={userPosts[profile.username]}
                 />
-            </UserProfileStyled>
+            </UserProfileStyled> : null
         );
     }
 }

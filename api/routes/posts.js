@@ -17,7 +17,7 @@ router.post('/create', authHelper.verifyToken, upload.single('image'),
         const { caption } = req.body;
         const { user, file } = req;
         
-        const sql = Posts.create(user.userId, caption, file.filename);
+        const sql = Posts.create(user.user_id, caption, file.filename);
         
         db.query(sql, (err, result) => {
             if (err) res.status(400).json({ msg: 'Error creating post!' });
@@ -53,7 +53,7 @@ router.get('/get/:username', (req, res) => {
 router.get('/following', authHelper.verifyToken, (req, res) => {
     const { user } = req;
 
-    const sql = Posts.getFollowing(user.userId);
+    const sql = Posts.getFollowing(user.user_id);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -65,7 +65,7 @@ router.get('/like', authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId } = req.query;
 
-    let sql = Posts.like(user.userId, postId);
+    let sql = Posts.like(user.user_id, postId);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -77,7 +77,7 @@ router.get('/dislike', authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId } = req.query;
 
-    let sql = Posts.dislike(user.userId, postId);
+    let sql = Posts.dislike(user.user_id, postId);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -89,7 +89,7 @@ router.post('/comment', authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId, content } = req.body;
 
-    let sql = Posts.comment(postId, user.userId, content);
+    let sql = Posts.comment(postId, user.user_id, content);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -101,7 +101,7 @@ router.post('/comment/reply', authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId, content, parentId } = req.body;
     
-    let sql = Posts.reply(postId, user.userId, content, parentId);
+    let sql = Posts.reply(postId, user.user_id, content, parentId);
 
     db.query(sql, (err, result) => {
         if (err) throw err;

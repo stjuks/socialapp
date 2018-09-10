@@ -46,10 +46,10 @@ router.post('/login', (req, res) => {
 
         bcrypt.compare(password, hash, (err, result) => {
             if (result) {
-                jwt.sign({ userId: user.user_id, username: user.username }, process.env.JWT_SECRET, (err, token) => {
+                jwt.sign({ user_id: user.user_id, username: user.username }, process.env.JWT_SECRET, (err, token) => {
                     res.json({
                         token,
-                        user: { userId: user.user_id, username: user.username }
+                        user: { user_id: user.user_id, username: user.username }
                     });
                 });
             } else {
