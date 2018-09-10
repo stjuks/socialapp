@@ -7,6 +7,11 @@ export const ProfileDetailsStyled = styled.div`
 export const FirstRowStyled = styled.div`
     display: flex;
     align-items: center;
+
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
+        flex-direction: column;
+        justify-content: center;
+    }
 `;
 
 export const SecondRowStyled = styled.div`
@@ -14,27 +19,41 @@ export const SecondRowStyled = styled.div`
 
 export const ProfilePictureStyled = styled.img`
     ${({ theme }) => `
-        width: 10rem;
-        height: 10rem;
+        width: 12rem;
+        height: 12rem;
         border-radius: 50%;
         margin-right: 1rem;
-        box-shadow: 3px 2px 5px ${theme.BLACK(.02)};
+
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            margin: 0;
+        }
     `}
 `;
 
 export const DetailsStyled = styled.div`
     ${({ theme }) => `
-        display: flex;
+        display: inline-block;
         flex-direction: column;
         justify-content: center;
+
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            align-items: center;
+            text-align: center;
+        }
     `}
 `;
 
 export const FollowBtnStyled = styled.div`
     ${({ theme }) => `
-        display: flex; 
+        display: inline-flex; 
         align-items: center;
         color: ${theme.SIDEBAR_2()};
+        z-index: 9;
+        cursor: pointer;
+
+        :hover {
+            opacity: .5;
+        }
 
         .follow-icon {
             margin-right: .25rem;
@@ -45,19 +64,44 @@ export const FollowBtnStyled = styled.div`
 `;
 
 export const UsernameStyled = styled.div`
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    font-size: 4rem;
-    font-weight: 300;
-    margin: 0 0 .75rem 0;
+    ${({ theme }) => `
+        height: 4rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 4rem;
+        font-weight: 300;
+
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            justify-content: center;
+        }
+    `}
 `;
 
 export const StatisticsStyled = styled.div`
-    span { margin-right: 2rem; }
+    ${({ theme }) => `
+
+        span { margin-right: 1rem; }
+
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            display: flex;
+            justify-content: space-around;
+            span { margin: 0 1rem; }
+        }
+    `}
 `;
 
 export const DescriptionStyled = styled.div`
+    padding-left: 13rem;
+    line-height: 2rem;
+    max-width: 800px;
+    width: 80%;
+
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
+        width: 100%;
+        padding: 1rem 0 0 0;
+        text-align: center;
+    }
 `;
 
 

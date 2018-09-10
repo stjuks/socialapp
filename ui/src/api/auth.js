@@ -5,8 +5,8 @@ const login = async (username, password) => {
     return axios.post('/auth/login', { username, password });
 };
 
-const register = async (username, password) => {
-    return axios.post('/auth/register', { username, password });
+const register = async (username, password, email) => {
+    return axios.post('/auth/register', { username, password, email });
 };
 
 const verify = async () => {

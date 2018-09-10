@@ -9,8 +9,13 @@ const loadImage = keyframes`
 export const PostItemStyled = styled.div`
     flex-basis: calc(100% / 3);
     padding: 5px;
-    min-width: 250px;
     box-sizing: border-box;
+    min-width: 250px;
+
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
+        flex-basis: 50%;
+        min-width: 0;
+    }
 `;
 
 export const PostItemWrapper = styled.div`

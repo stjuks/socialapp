@@ -14,6 +14,8 @@ export const BUSY = `rgba(249, 54, 54, 1)`;
 export const SIDEBAR_1 = (opt = {}) => `hsl(200, ${opt.s || '14%'}, ${opt.l || '21%'})`;
 export const SIDEBAR_2 = (opt = {}) => `hsl(275, ${opt.s || '20%'}, ${opt.l || '36%'})`;
 
+export const BREAKPOINT = '740px';
+
 export default {
     WHITE,
     BLACK,
@@ -26,6 +28,7 @@ export default {
     AWAY,
     BUSY,
     SIDEBAR_1,
-    SIDEBAR_2
+    SIDEBAR_2,
+    BREAKPOINT
 }
 

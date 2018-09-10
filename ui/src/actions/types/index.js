@@ -42,3 +42,4 @@ export const SEARCH_USERS = fetchAction('SEARCH_USERS');
 export const FETCH_SELF_FOLLOWING = fetchAction('FETCH_SELF_FOLLOWING');
 export const FETCH_USER_PROFILE = fetchAction('FETCH_USER_PROFILE');
 export const FOLLOW_USER = voidAction('FOLLOW_USER');
+export const SET_ACTIVE_PROFILE = payload => ({ type: 'SET_ACTIVE_PROFILE', payload });

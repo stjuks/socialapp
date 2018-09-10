@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { routes } from 'helpers/constants';
+import history from 'helpers/history';
 
 import { NavbarStyled } from './styles';
 
 import SearchUser from 'components/navbar/SearchUser';
 import MenuBar from 'components/navbar/MenuBar';
+import Banner from 'components/navbar/Banner';
 
 import { searchUsers } from 'actions/userActions';
 
@@ -15,6 +18,11 @@ class Navbar extends Component {
 
     handleSearch = value => {
         this.props.dispatch(searchUsers(value));
+    }
+
+    handleProfile = () => {
+        const { self } = this.props;
+        history.push(routes.profile(self.username));
     }
 
     render() {
@@ -28,6 +36,7 @@ class Navbar extends Component {
                 />
                 <MenuBar
                     toggleModal={this.toggleModal}
+                    handleProfile={this.handleProfile}
                 />
             </NavbarStyled>
         );
@@ -36,7 +45,8 @@ class Navbar extends Component {
 
 const mapStateToProps = store => {
     return {
-        searchResults: store.user.userSearchResults
+        searchResults: store.user.userSearchResults,
+        self: store.user.self
     }
 }
 

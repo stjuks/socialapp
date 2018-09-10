@@ -9,6 +9,10 @@ export const SearchUserStyled = styled.div`
     .popover-body {
         padding: 0 !important;
     }
+
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
+        display: none;
+    }
 `;
 
 export const InputContainerStyled = styled.div`

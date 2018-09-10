@@ -11,15 +11,16 @@ class Posts extends Component {
 
         return (
             <PostsStyled>
-                {posts.map(post =>
+                {posts && posts.map(post =>
                     <PostItem
+                        key={post.post_id}
                         img={`${API_URL}/posts/image/${post.image}`}
                         likeCount={post.like_count}
                         postId={post.post_id}
                         caption={post.caption}
                         timestamp={post.timestamp}
                         username={post.username}
-                        commentCount={post.comments.length}
+                        commentCount={post.comment_count}
                     />
                 )}
             </PostsStyled>

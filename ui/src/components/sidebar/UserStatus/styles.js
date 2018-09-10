@@ -16,7 +16,7 @@ export const ProfilePictureStyled = styled.div`
 
 export const StatusDetailsStyled = styled.div`
     flex: 1;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     padding-left: 5px;
 `;

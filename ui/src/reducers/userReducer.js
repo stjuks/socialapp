@@ -3,7 +3,8 @@ import {
     SEARCH_USERS,
     FOLLOW_USER,
     LOGIN,
-    FETCH_SELF_FOLLOWING
+    FETCH_SELF_FOLLOWING,
+    SET_ACTIVE_PROFILE
 } from 'actions/types';
 
 const INITIAL_STATE = {
@@ -14,7 +15,8 @@ const INITIAL_STATE = {
         isLoggedIn: false
     },
     userSearchResults: [],
-    profiles: {}
+    profiles: {},
+    activeProfile: {}
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
@@ -55,6 +57,12 @@ export default function reducer(state=INITIAL_STATE, action) {
             }
         }
         case FOLLOW_USER.SUCCESS.type: {
+            return {
+                ...state,
+                activeProfile: action.payload
+            }
+        }
+        case SET_ACTIVE_PROFILE().type: {
             return {
                 ...state,
                 activeProfile: action.payload

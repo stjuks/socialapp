@@ -1,9 +1,10 @@
 import axios from 'axios';
+import cachios from 'cachios';
 
 import { authRequest } from './index';
 
 const search = async query => {
-    return axios.get('/users/search', {
+    return cachios.get('/users/search', {
         params: { query }
     });
 };
@@ -16,8 +17,8 @@ const followers = async userId => {
     return axios.get(`/users/followers/${userId}`, authRequest());
 }
 
-const profile = async userId => {
-    return axios.get(`/users/get/${userId}`, authRequest());
+const profile = async username => {
+    return cachios.get(`/users/get/${username}`, authRequest());
 };
 
 const follow = async userId => {

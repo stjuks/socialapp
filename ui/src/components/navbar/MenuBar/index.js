@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
+import history from 'helpers/history';
 
 import Icon from 'styled/Icon';
 import { MenuBarStyled } from './styles';
 
 import { SETTINGS, UPLOAD } from 'actions/types';
 
-class SearchUser extends Component {
+class MenuBar extends Component {
     render() {
-        const { toggleModal } = this.props;
+        const { toggleModal, handleProfile } = this.props;
 
         return (
             <MenuBarStyled>
-                <Icon type="upload" onClick={() => toggleModal(UPLOAD.OPEN)} />
-                <Icon type="chat" />
-                <Icon type="settings" onClick={() => toggleModal(SETTINGS.OPEN)} />
-                <Icon type="profile" />
+                <Icon button type="upload" onClick={() => toggleModal(UPLOAD.OPEN)} />
+                <Icon button type="chat" />
+                <Icon button type="settings" onClick={() => toggleModal(SETTINGS.OPEN)} />
+                <Icon button type="profile" onClick={() => handleProfile()} />
             </MenuBarStyled>
         );
     }
 }
 
-export default SearchUser;
+export default MenuBar;

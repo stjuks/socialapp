@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Popover, PopoverBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+import history from 'helpers/history';
+import { routes } from 'helpers/constants';
+
 import {
     SearchUserStyled,
     InputContainerStyled,
@@ -33,6 +36,11 @@ class SearchUser extends Component {
         }
     }
 
+    handleClick = result => {
+        history.push(routes.profile(result.username));
+        this.setState({ isPopoverOpen: false });
+    }
+
     render() {
         const { isPopoverOpen, query } = this.state;
         const { searchResults } = this.props;
@@ -59,10 +67,11 @@ class SearchUser extends Component {
                     <PopoverBody>
                         <ul>
                             {searchResults.map(result => (
-                                <UserListItemStyled key={result.id}>
-                                    <Link to={`/${result.username}`}>
-                                        {result.username}
-                                    </Link>
+                                <UserListItemStyled 
+                                    onClick={() => this.handleClick(result)}
+                                    key={result.user_id}
+                                >
+                                    {result.username}
                                 </UserListItemStyled>
                             ))}
                         </ul>

@@ -1,7 +1,8 @@
 export const routes = {
     login: '/login',
     app: '/',
-    register: '/register'
+    register: '/register',
+    profile: username => `/${username == null ? ':username' : username}`
 };
 
 export const validate = {

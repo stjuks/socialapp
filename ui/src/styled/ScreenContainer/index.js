@@ -6,8 +6,4 @@ export const ScreenContainer = styled.div`
     padding: 15px;
     width: 100%;
     height: 100%;
-    
-    @media only screen and (max-width: 640px) {
-        padding: 0;
-    }
 `;

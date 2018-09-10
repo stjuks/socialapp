@@ -39,14 +39,14 @@ router.get('/image/:imageName', (req, res) => {
     }
 });
 
-router.get('/get/:userId', (req, res) => {
-    const { userId } = req.params;
+router.get('/get/:username', (req, res) => {
+    const { username } = req.params;
 
-    const sql = Posts.get(userId);
+    const sql = Posts.get(username);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.json(result.rows[0].result);
+        res.json(result.rows);
     });
 });
 
@@ -57,7 +57,7 @@ router.get('/following', authHelper.verifyToken, (req, res) => {
 
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.json(result.rows[0].result);
+        res.json(result.rows);
     });
 });
 

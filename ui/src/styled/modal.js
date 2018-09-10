@@ -2,14 +2,20 @@ import styled from 'styled-components';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 export const ModalStyled = styled(Modal)`
-    ${({ width }) => `
+    ${({ width, theme }) => `
         width: ${width};
+        margin: auto;
+        padding: 5px;
+
+        @media only screen and (max-width: 720px) {
+            width: 100%;
+        }
     
         .modal-content {
             border: none;
             border-radius: 3px;
             overflow: hidden;
-            box-shadow: 2px 4px 4px ${({ theme }) => theme.BLACK(.1)};
+            box-shadow: 2px 4px 4px ${theme.BLACK(.1)};
         }
     `}
 `;

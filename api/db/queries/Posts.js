@@ -5,77 +5,22 @@ module.exports = {
             VALUES ($1, $2, $3) RETURNING *;
         `, values: [userId, caption, image]
     }),
-    get: userId => ({
+    get: username => ({
         text: `
-            SELECT jsonb_agg(json) result
-            FROM (
-                SELECT 
-                    jsonb_build_object(
-                        'post_id', post_id, 
-                        'user_id', user_id,
-                        'timestamp', timestamp,
-                        'caption', caption,
-                        'image', image,
-                        'like_count', like_count,
-                        'comments', jsonb_agg(c)
-                    ) json
-                FROM (
-                    SELECT
-                        p.*,
-                        (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) AS like_count,
-                        jsonb_build_object(
-                            'comment_id', c.comment_id,
-                            'content', c.content,
-                            'poster_id', c.poster_id,
-                            'parent_id', c.parent_id,
-                            'timestamp', c.timestamp
-                        ) c
-                    FROM posts p
-                    LEFT JOIN LATERAL (
-                        SELECT * FROM comments WHERE post_id=p.post_id ORDER BY timestamp DESC LIMIT 15
-                    ) c ON true
-                    WHERE p.user_id=$1
-                ) p
-                GROUP BY post_id, user_id, timestamp, caption, image, like_count
-            ) p;
-        `, values: [userId] 
+            SELECT p.*, u.username,
+                (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
+                (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
+            FROM posts p JOIN users u ON p.user_id=u.user_id
+            WHERE u.username=$1
+        `, values: [username] 
     }),
     getFollowing: userId => ({
         text: `
-            SELECT jsonb_agg(json) result
-            FROM (
-                SELECT 
-                    jsonb_build_object(
-                        'post_id', post_id, 
-                        'user_id', user_id,
-                        'username', username,
-                        'timestamp', timestamp,
-                        'caption', caption,
-                        'image', image,
-                        'like_count', like_count,
-                        'comments', jsonb_agg(c)
-                    ) json
-                FROM (
-                    SELECT
-                        p.*,
-                        (SELECT username FROM users WHERE user_id=p.user_id),
-                        (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
-                        jsonb_build_object(
-                            'comment_id', c.comment_id,
-                            'content', c.content,
-                            'poster_id', c.poster_id,
-                            'parent_id', c.parent_id,
-                            'timestamp', c.timestamp
-                        ) c
-                    FROM (posts p
-                    LEFT JOIN LATERAL (
-                        SELECT * FROM comments WHERE post_id=p.post_id ORDER BY timestamp DESC LIMIT 15
-                    ) c ON true)
-                    LEFT JOIN followers f ON p.user_id=f.following_id
-                    WHERE f.follower_id=$1
-                ) p
-                GROUP BY post_id, user_id, username, timestamp, caption, image, like_count
-            ) p;
+            SELECT p.*, u.username,
+                (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
+                (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
+            FROM (posts p JOIN users u ON p.user_id=u.user_id) LEFT JOIN followers f ON p.user_id=f.following_id
+            WHERE f.follower_id=$1
         `, values: [userId] 
     }),
     like: (userId, postId) => ({

@@ -7,7 +7,7 @@ export const SidebarStyled = styled.div`
     color: ${({ theme }) => theme.GREY_238()};
     padding: 20px 30px;
     
-    @media only screen and (max-width: 640px) {
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
         display: none;
     }
 `;

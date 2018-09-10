@@ -1,5 +1,6 @@
 import { authRequest } from './index';
 import axios from 'axios';
+import cachios from 'cachios';
 
 const create = async formData => {
     return axios('/posts/create', authRequest({
@@ -11,8 +12,8 @@ const create = async formData => {
     }));
 };
 
-const get = async userId => {
-    return axios.get(`/posts/get/${userId}`);
+const get = async username => {
+    return cachios.get(`/posts/get/${username}`);
 };
 
 const following = async () => {

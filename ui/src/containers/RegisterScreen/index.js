@@ -23,7 +23,7 @@ class RegisterScreen extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const { dispatch } = this.props;
-        const { username, password, confirmPassword } = this.state;
+        const { username, password, confirmPassword, email } = this.state;
 
         if (password !== confirmPassword) {
             return dispatch(REGISTER.ERROR('Passwords do not match!'));
@@ -32,7 +32,7 @@ class RegisterScreen extends Component {
         this.setState({ isSubmitted: true });
 
         setTimeout(async () => {
-            let res = await dispatch(register(username, password));
+            let res = await dispatch(register(username, password, email));
             this.setState({ isSuccess: res });
             setTimeout(() => {
                 this.setState({ isSubmitted: false });

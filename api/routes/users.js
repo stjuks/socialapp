@@ -20,11 +20,11 @@ router.get('/search', (req, res) => {
     })
 });
 
-router.get('/get/:userId', authHelper.verifyToken, (req, res) => {
-    const { userId } = req.params;
+router.get('/get/:username', authHelper.verifyToken, (req, res) => {
+    const { username } = req.params;
     const { user } = req;
 
-    let sql = Users.getProfile(user.userId, userId);
+    let sql = Users.getProfile(user.userId, username);
 
     db.query(sql, (err, result) => {
         if (err) throw err;

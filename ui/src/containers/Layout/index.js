@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
+import { routes } from 'helpers/constants';
 import { LayoutStyled, ContentStyled } from './styles';
 
 import Sidebar from '../Sidebar';
@@ -10,6 +11,10 @@ import UserProfile from '../UserProfile';
 import Navbar from '../Navbar';
 
 class Layout extends Component {
+    componentDidMount() {
+        console.log(this.props);
+    }
+
     render() {
         const { self } = this.props;
 
@@ -20,8 +25,10 @@ class Layout extends Component {
                     <ContentStyled>
                         <Navbar />
                         <Switch>
-                            <Route exact path="/" component={UserProfile} />
-                            <Route path="/:username" component={UserProfile} />
+                            <Route exact path={routes.app} component={Feed} />
+                            <Route exact path={routes.profile()} render={props => 
+                                <UserProfile key={props.location.pathname} /> 
+                            } />
                         </Switch>
                     </ContentStyled>
             </LayoutStyled> : null
@@ -35,4 +42,4 @@ const mapStateToProps = store => {
     }
 }
 
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));

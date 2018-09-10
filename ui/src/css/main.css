@@ -16,12 +16,6 @@ html {
     font-size: 12px !important;
 }
 
-@media only screen and (max-width: 420px) {
-    html {
-        font-size: 16px !important;
-    }
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -43,6 +37,8 @@ a:hover {
 ul, li { list-style-type: none; margin: 0; padding: 0; }
 
 label { margin: 0; }
+
+button { background: transparent; border: none; }
 
 /*.app-container {
     width: 100vw;

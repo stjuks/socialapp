@@ -1,4 +1,7 @@
-import { FETCH_FEED } from './types';
+import { 
+    FETCH_FEED,
+    FETCH_USER_POSTS
+} from './types';
 import API from 'api';
 
 export const getFeedPosts = () => {
@@ -6,7 +9,6 @@ export const getFeedPosts = () => {
         try {
             dispatch(FETCH_FEED.START);
             let { data } = await API.posts.following();
-
             dispatch(FETCH_FEED.SUCCESS(data));
         } catch (err) {
             dispatch(FETCH_FEED.ERROR());
@@ -14,12 +16,16 @@ export const getFeedPosts = () => {
     }
 };
 
-export const getPosts = userId => {
-    return async dispatch => {
+export const getPosts = username => {
+    return async (dispatch, getState) => {
         try {
-            let { data } = await API.posts.get(userId);
-        } catch (err) {
+            if (getState().posts.userPosts[username]) return;
 
+            dispatch(FETCH_USER_POSTS.START);
+            let { data } = await API.posts.get(username);
+            dispatch(FETCH_USER_POSTS.SUCCESS(data, username));
+        } catch (err) {
+            dispatch(FETCH_USER_POSTS.ERROR('Error fetching posts!'));
         }
     }
 }

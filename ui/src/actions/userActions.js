@@ -4,7 +4,8 @@ import {
     SEARCH_USERS,
     FETCH_SELF_FOLLOWING,
     FETCH_USER_PROFILE,
-    FOLLOW_USER
+    FOLLOW_USER,
+    SET_ACTIVE_PROFILE
 } from './types';
 
 export const searchUsers = query => {
@@ -33,13 +34,14 @@ export const getFollowing = userId => {
     }
 };
 
-export const getUserProfile = userId => {
+export const getUserProfile = username => {
     return async dispatch => {
         try {
             dispatch(FETCH_USER_PROFILE.START);
-            const { data } = await API.users.profile(userId);
+            const { data } = await API.users.profile(username);
             
-            dispatch(FETCH_USER_PROFILE.SUCCESS(data));
+            dispatch(FETCH_USER_PROFILE.SUCCESS(data, username));
+            dispatch(SET_ACTIVE_PROFILE(data));
         } catch (err) {
             dispatch(FETCH_USER_PROFILE.ERROR);
         }
@@ -47,9 +49,13 @@ export const getUserProfile = userId => {
 };
 
 export const follow = userId => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         try {
             await API.users.follow(userId);
+            let profile = Object.assign({}, getState().user.activeProfile);
+            profile.is_watcher_following = true;
+            dispatch(FETCH_USER_PROFILE.SUCCESS(profile, profile.username));
+            dispatch(SET_ACTIVE_PROFILE(profile));
         } catch (err) {
 
         }
@@ -57,9 +63,13 @@ export const follow = userId => {
 }
 
 export const unfollow = userId => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         try {
             await API.users.unfollow(userId);
+            let profile = Object.assign({}, getState().user.activeProfile);
+            profile.is_watcher_following = false;
+            dispatch(FETCH_USER_PROFILE.SUCCESS(profile, profile.username));
+            dispatch(SET_ACTIVE_PROFILE(profile));
         } catch (err) {
 
         }

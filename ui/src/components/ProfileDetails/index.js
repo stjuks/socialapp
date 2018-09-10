@@ -16,29 +16,44 @@ import Icon from 'styled/Icon';
 
 class ProfileDetails extends Component {
     render() {
-        const { posts } = this.props;
+        const { 
+            username,
+            isWatcherFollowing,
+            postCount,
+            followerCount,
+            followingCount,
+            handleFollow,
+            isSelf
+        } = this.props;
 
         return (
             <ProfileDetailsStyled>
                 <FirstRowStyled>
                     <ProfilePictureStyled src="images/default-avatar.svg" />
                     <DetailsStyled>
-                        <FollowBtnStyled>
-                            <Icon className="follow-icon" type="follow" noHover /> Follow
-                        </FollowBtnStyled>
+                        {!isSelf ? isWatcherFollowing ?
+                            <FollowBtnStyled onClick={() => handleFollow(false)}>
+                                <Icon className="follow-icon" type="unfollow" noHover /> Unfollow
+                            </FollowBtnStyled> :
+                            <FollowBtnStyled onClick={() => handleFollow(true)}>
+                                <Icon className="follow-icon" type="follow" noHover /> Follow
+                            </FollowBtnStyled> : null
+                        }
                         <UsernameStyled>
-                            stevenjuks
+                            {username}
                         </UsernameStyled>
                         <StatisticsStyled>
-                            <span><strong>3</strong> posts</span>
-                            <span><strong>564</strong> followers</span>
-                            <span><strong>95</strong> following</span>
+                            <span><strong>{postCount}</strong> posts</span>
+                            <span><strong>{followerCount}</strong> followers</span>
+                            <span><strong>{followingCount}</strong> following</span>
                         </StatisticsStyled>
                     </DetailsStyled>
                 </FirstRowStyled>
                 <SecondRowStyled>
                     <DescriptionStyled>
-
+                        Hello, My name is Steven and I approve this message. 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                        Etiam at justo in quam sollicitudin condimentum.
                     </DescriptionStyled>
                 </SecondRowStyled>
             </ProfileDetailsStyled>

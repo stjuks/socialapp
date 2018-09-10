@@ -25,12 +25,12 @@ export const login = (username, password) => {
     }
 };
 
-export const register = (username, password) => {
+export const register = (username, password, email) => {
     return async (dispatch) => {
         try {
             dispatch(REGISTER.START);
 
-            await API.auth.register(username, password);
+            await API.auth.register(username, password, email);
 
             history.push(routes.login);
 

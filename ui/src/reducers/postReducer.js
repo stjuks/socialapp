@@ -32,9 +32,7 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 userPosts: {
                     ...state.userPosts, 
-                    [action.key]: state.userPosts[action.key] ? 
-                        [...state.userPosts[action.key], ...action.payload] : 
-                        action.payload 
+                    [action.key]: action.payload
                 }
             }
         }

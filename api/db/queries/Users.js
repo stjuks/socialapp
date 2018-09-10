@@ -23,23 +23,19 @@ module.exports = {
             (SELECT following_id FROM followers WHERE follower_id=$1);
         `, values: [userId]
     }),
-    getProfile: (selfId, userId) => ({
+    getProfile: (selfId, username) => ({
         text: `
             SELECT user_id, username, avatar,
-            EXISTS (
-                SELECT 1 FROM followers 
-                WHERE follower_id=$1 
-                AND following_id=$2
-            ) AS is_watcher_following,
-            COUNT(*) FILTER (WHERE follower_id=users.user_id) AS following_count,
-            COUNT(*) FILTER (WHERE following_id=users.user_id) AS follower_count
-            FROM (
-                users LEFT JOIN followers 
-                ON users.user_id=followers.follower_id 
-                OR users.user_id=followers.following_id
-            ) WHERE user_id=$2
-            GROUP BY user_id;
-        `, values: [selfId, userId]
+                EXISTS (
+                    SELECT 1 FROM followers 
+                    WHERE follower_id=$1
+                    AND following_id=users.user_id
+                ) is_watcher_following,
+                (SELECT COUNT(*) FILTER (WHERE follower_id=users.user_id) FROM followers) following_count,
+                (SELECT COUNT(*) FILTER (WHERE following_id=users.user_id) FROM followers) follower_count,
+                (SELECT COUNT(*) FILTER (WHERE user_id=users.user_id) FROM posts) post_count
+            FROM users WHERE users.username=$2;
+        `, values: [selfId, username]
     }),
     search: query => ({
         text: `
