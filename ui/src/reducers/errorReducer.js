@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 
 export default function reducer(state=INITIAL_STATE, action) {
     const { type } = action;
-    const matches = /(.*)_(START|SUCCESS|ERROR|CLOSE)/.exec(type);
+    const matches = /(.*)_(START|SUCCESS|ERROR|CLOSE|STATE)/.exec(type);
 
     if (!matches) return state;
 

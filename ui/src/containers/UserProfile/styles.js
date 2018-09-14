@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { ScreenContainer } from 'styled/ScreenContainer';
 
 export const UserProfileStyled = ScreenContainer.extend`
-    padding: 2rem 6rem;
-    flex: 1;
+    ${({ theme }) => `
+        padding: 2rem 6rem;
+        flex: 1;
 
-    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
-        padding: 2rem;
-    }
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            padding: 2rem;
+        }
+    `}
 `;
 
 export const DividerStyled = styled.hr`

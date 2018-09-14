@@ -16,6 +16,10 @@ export const PostItemStyled = styled.div`
         flex-basis: 50%;
         min-width: 0;
     }
+
+    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT_SMALL}) {
+        flex-basis: 100%;   
+    }
 `;
 
 export const PostItemWrapper = styled.div`

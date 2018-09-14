@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import history from 'helpers/history';
 import { routes } from 'helpers/constants';
+import { RESET_STATE } from 'actions/types';
 
 import LoginForm from 'components/auth/LoginForm';
 
@@ -15,6 +16,10 @@ class LoginScreen extends Component {
         isSubmitted: false,
         isSuccess: null
     };
+
+    componentDidMount() {
+        this.props.dispatch(RESET_STATE);
+    }
 
     onSubmit = e => {
         e.preventDefault();

@@ -7,7 +7,6 @@ import { NavbarStyled } from './styles';
 
 import SearchUser from 'components/navbar/SearchUser';
 import MenuBar from 'components/navbar/MenuBar';
-import Banner from 'components/navbar/Banner';
 
 import { searchUsers } from 'actions/userActions';
 
@@ -25,6 +24,10 @@ class Navbar extends Component {
         history.push(routes.profile(self.username));
     }
 
+    handleHome = () => {
+        history.push(routes.app);
+    }
+
     render() {
         const { searchResults } = this.props;
 
@@ -37,6 +40,7 @@ class Navbar extends Component {
                 <MenuBar
                     toggleModal={this.toggleModal}
                     handleProfile={this.handleProfile}
+                    handleHome={this.handleHome}
                 />
             </NavbarStyled>
         );

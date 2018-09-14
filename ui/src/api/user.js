@@ -18,7 +18,7 @@ const followers = async userId => {
 }
 
 const profile = async username => {
-    return cachios.get(`/users/get/${username}`, authRequest());
+    return axios.get(`/users/get/${username}`, authRequest());
 };
 
 const follow = async userId => {

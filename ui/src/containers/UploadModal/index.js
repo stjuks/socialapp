@@ -43,19 +43,6 @@ class UploadModal extends Component {
                     node.appendChild(img);
                 }, { orientation: data.exif && data.exif.get('Orientation') });
             })
-            /*loadImage(image, img => {
-                this.setState({ loadedImage: image });
-                ReactDOM.findDOMNode(this.imageContainer).appendChild(img);
-            },  { orientation: true, maxHeight: 300, maxWidth: 300 });
-            /*const image = e.target.files[0];
-
-            let reader = new FileReader();
-            this.setState({ image: image });
-            reader.onload = evt => {
-                this.setState({ loadedImage: evt.target.result });
-            };
-
-            reader.readAsDataURL(image);*/
         }
     };
 
@@ -69,7 +56,7 @@ class UploadModal extends Component {
 
     render() {
         const { isOpen, dispatch } = this.props;
-        const { caption, loadedImage } = this.state;
+        const { caption } = this.state;
 
         return (
             <ModalStyled width="60%" isOpen={isOpen} toggle={() => dispatch(UPLOAD.CLOSE)}>
@@ -80,7 +67,8 @@ class UploadModal extends Component {
                     <ImageContainer>
                         <div ref={el => this.imageContainer = el} />
                     </ImageContainer>
-                    <FileInputStyled name="image" onChange={e => this.handleImage(e)} type="file" />
+                    <label htmlFor="file-input">asd</label>
+                    <FileInputStyled id="file-input" name="image" onChange={e => this.handleImage(e)} type="file" />
                     <Input label="Caption" value={caption} name="caption" onChange={e => this.handleChange(e)} />
                     <button onClick={() => this.onSubmit()}>Create post</button>
                 </ModalBodyStyled>

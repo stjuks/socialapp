@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Popover, PopoverBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ import {
     InputContainerStyled,
     SearchInputStyled,
     SearchIconStyled,
+    UserListStyled,
     UserListItemStyled
 } from './styles';
 
@@ -36,9 +38,9 @@ class SearchUser extends Component {
         }
     }
 
-    handleClick = result => {
-        history.push(routes.profile(result.username));
+    handleClick = () => {
         this.setState({ isPopoverOpen: false });
+        ReactDOM.findDOMNode(this.input).focus();
     }
 
     render() {
@@ -50,6 +52,7 @@ class SearchUser extends Component {
                 <InputContainerStyled id="searchUsers">
                     <SearchInputStyled
                         name="searchQuery"
+                        ref={el => this.input = el}
                         value={query}
                         onChange={e => this.handleInput(e)}
                         placeholder="Search users..."
@@ -62,19 +65,21 @@ class SearchUser extends Component {
                     toggle={this.togglePopover} 
                     placement="bottom" 
                     target="searchUsers"
+                    container="searchUsers"
                     isOpen={isPopoverOpen && query.length > 1} 
                 >
                     <PopoverBody>
-                        <ul>
+                        <UserListStyled>
                             {searchResults.map(result => (
                                 <UserListItemStyled 
                                     onClick={() => this.handleClick(result)}
                                     key={result.user_id}
+                                    to={routes.profile(result.username)}
                                 >
                                     {result.username}
                                 </UserListItemStyled>
                             ))}
-                        </ul>
+                        </UserListStyled>
                     </PopoverBody>
                 </Popover>
             </SearchUserStyled>

@@ -24,7 +24,7 @@ export default (state = INITIAL_STATE, action) => {
         case FETCH_FEED.SUCCESS().type: {
             return {
                 ...state,
-                feed: [...state.feed, ...action.payload]
+                feed: action.payload
             }
         }
         case FETCH_USER_POSTS.SUCCESS().type: {

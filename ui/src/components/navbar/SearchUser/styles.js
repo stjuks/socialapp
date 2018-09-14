@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const SearchUserStyled = styled.div`
     width: 60%;
@@ -52,7 +53,12 @@ export const SearchIconStyled = styled.div`
     }
 `;
 
-export const UserListItemStyled = styled.li`
+export const UserListStyled = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+export const UserListItemStyled = styled(Link)`
     ${({ theme }) => `
         padding: .5rem 3rem;
         cursor: pointer;

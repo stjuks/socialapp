@@ -8,10 +8,11 @@ import { SETTINGS, UPLOAD } from 'actions/types';
 
 class MenuBar extends Component {
     render() {
-        const { toggleModal, handleProfile } = this.props;
+        const { toggleModal, handleProfile, handleHome } = this.props;
 
         return (
             <MenuBarStyled>
+                <Icon button type="home" onClick={() => handleHome()} />
                 <Icon button type="upload" onClick={() => toggleModal(UPLOAD.OPEN)} />
                 <Icon button type="chat" />
                 <Icon button type="settings" onClick={() => toggleModal(SETTINGS.OPEN)} />
