@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const validate = require('./index');
 
 const register = (req, res, next) => {
     const schema = Joi.object().keys({
@@ -7,13 +8,7 @@ const register = (req, res, next) => {
         email: Joi.string().email()
     });
 
-    Joi.validate(req.body, schema, (err, result) => {
-        if (err) {
-            res.status(400).json({ msg: err.details[0].message });
-            return;
-        }
-        next();
-    })
+    validate(req.body, schema, res, next);
 };
 
 module.exports = {

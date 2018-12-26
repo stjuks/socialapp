@@ -1,13 +1,12 @@
 module.exports = {
-    login: username => ({
+    login: (username, password) => ({
         text: `
-            SELECT * FROM users WHERE username=$1;
-        `, values: [username]
+            SELECT * FROM f_login_user($1, $2);
+        `, values: [username, password]
     }),
-    register: (username, password, email) => ({
+    register: (username, email, password) => ({
         text: `
-            INSERT INTO users (username, password, email) 
-            VALUES ($1, $2, $3);
-        `, values: [username, password, email]
+            SELECT f_register_user($1, $2, $3);
+        `, values: [username, email, password]
     })
 };

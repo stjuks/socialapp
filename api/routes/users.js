@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+const validate = require('./validation/users');
 const { authHelper } = require('../helpers');
 const db = require('../db');
 const { Users } = require('../db/queries');
 
-router.get('/search', (req, res) => {
+router.get('/search', validate.search, (req, res) => {
     const { query } = req.query;
-
-    if (query.length === 0) {
-        return res.json([]);
-    }
 
     const sql = Users.search(query);
 
@@ -20,7 +17,7 @@ router.get('/search', (req, res) => {
     })
 });
 
-router.get('/get/:username', authHelper.verifyToken, (req, res) => {
+router.get('/get/:username', authHelper.verifyToken, validate.getUser, (req, res) => {
     const { username } = req.params;
     const { user } = req;
 
@@ -29,7 +26,9 @@ router.get('/get/:username', authHelper.verifyToken, (req, res) => {
     db.query(sql, (err, result) => {
         if (err) throw err;
 
-        if (result.rows.length === 0) return res.status(404).json({ msg: 'No user found!' });
+        if (result.rows.length === 0) {
+            return res.status(404).json({ msg: 'No user found!' });
+        }
 
         const user = result.rows[0];
         res.json(user);

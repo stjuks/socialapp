@@ -1,52 +1,46 @@
 const express = require('express');
 const router = express.Router();
 
-const mysql = require('mysql');
-
+const validate = require('./validation/follow');
 const { authHelper } = require('../helpers');
 const db = require('../db');
 const { Users } = require('../db/queries');
 
-router.get('/follow/:followingId', authHelper.verifyToken, (req, res) => {
+router.get('/follow/:followingId', authHelper.verifyToken, validate.follow, (req, res) => {
     const { followingId } = req.params;
     const { user } = req;
-
-    if (user.user_id === followingId) {
-        return res.status(400).json({ msg: 'You can not follow yourself!' });
-    }
 
     const sql = Users.follow(user.user_id, followingId);
 
     db.query(sql, (err, result) => {
         if (err) {
-            return res.status(400).json({ msg: 'User does not exist or you already follow this user!' });
+            return res.status(400).json({ 
+                msg: 'User does not exist or you already follow this user!' 
+            });
         }
         res.end();
     });
 
 });
 
-router.get('/unfollow/:followingId', authHelper.verifyToken, (req, res) => {
+router.get('/unfollow/:followingId', authHelper.verifyToken, validate.unfollow, (req, res) => {
     const { followingId } = req.params;
     const { user } = req;
-
-    if (user.user_id === followingId) {
-        res.status(400).json({ msg: 'You can not unfollow yourself!' });
-        return;
-    }
 
     const sql = Users.unfollow(user.user_id, followingId);
 
     db.query(sql, (err, result) => {
         if (err || result.affectedRows === 0) {
-            return res.status(400).json({ msg: 'User does not exist or you are not following this user!' });
+            return res.status(400).json({ 
+                msg: 'User does not exist or you are not following this user!' 
+            });
         }
         res.end();
     })
 
 });
 
-router.get('/followers/:userId', (req, res) => {
+router.get('/followers/:userId', validate.getFollowers, (req, res) => {
     const { userId } = req.params;
 
     const sql = Users.getFollowers(userId);
@@ -57,7 +51,7 @@ router.get('/followers/:userId', (req, res) => {
     })
 });
 
-router.get('/following/:userId', (req, res) => {
+router.get('/following/:userId', validate.getFollowing, (req, res) => {
     const { userId } = req.params;
 
     const sql = Users.getFollowing(userId);

@@ -1,64 +1,47 @@
 module.exports = {
-    create: (userId, caption, image) => ({
+    create: (posterId, imageName, caption) => ({
         text: `
-            INSERT INTO posts (user_id, caption, image) 
-            VALUES ($1, $2, $3) RETURNING *;
-        `, values: [userId, caption, image]
+            SELECT f_create_post($1, $2, $3);
+        `, values: [posterId, imageName, caption]
     }),
-    get: username => ({
+    getUserPosts: username => ({
         text: `
-            SELECT p.*, u.username,
-                (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
-                (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
-            FROM posts p JOIN users u ON p.user_id=u.user_id
-            WHERE u.username=$1
-            ORDER BY p.timestamp DESC;
+            SELECT * FROM all_posts WHERE poster_username = $1;
         `, values: [username] 
     }),
     getFollowing: userId => ({
         text: `
-            SELECT p.*, u.username,
-                (SELECT COUNT(*) FILTER (WHERE p.post_id=likes.post_id) FROM likes) like_count,
-                (SELECT COUNT(*) FILTER (WHERE p.post_id=comments.post_id) FROM comments) comment_count
-            FROM (posts p JOIN users u ON p.user_id=u.user_id) LEFT JOIN followers f ON p.user_id=f.following_id
-            WHERE f.follower_id=$1
-            ORDER BY p.timestamp DESC;
+            SELECT * FROM feed_posts WHERE follower_id = $1;
         `, values: [userId] 
     }),
-    like: (userId, postId) => ({
+    like: (likerId, postId) => ({
         text: `
-            INSERT INTO likes (user_id, post_id) VALUES ($1, $2);
-        `, values: [userId, postId] 
+            SELECT f_like_post($1, $2);
+        `, values: [likerId, postId] 
     }),
-    dislike: (userId, postId) => ({
+    unlike: (likerId, postId) => ({
         text: `
-            DELETE FROM likes WHERE user_id=$1 AND post_id=$2;
-        `, values: [userId, postId]
+            SELECT f_unlike_post($1, $2);
+        `, values: [likerId, postId]
     }),
     comment: (postId, userId, content) => ({
         text: `
-            INSERT INTO comments (post_id, poster_id, content) 
-            VALUES ($1, $2, $3) RETURNING *;
+            SELECT f_comment_on_post($1, $2, $3, null);
         `, values: [postId, userId, content]
     }),
     reply: (postId, userId, content, parentId) => ({
         text: `
-            INSERT INTO comments (post_id, poster_id, content, parent_id) 
-            VALUES ($1, $2, $3, $4) RETURNING *;
+            SELECT f_comment_on_post($1, $2, $3, $4);
         `, values: [postId, userId, content, parentId]
     }),
     getComments: postId => ({
         text: `
-            SELECT comments.*, users.avatar, users.username 
-            FROM comments INNER JOIN users ON comments.poster_id=users.user_id
-            WHERE comments.post_id=$1 AND parent_id IS NULL;
+            SELECT * FROM all_comments WHERE post_id = $1 AND parent_id IS NULL;
         `, values: [postId]
     }),
-    getReplies: commentId => ({
+    getReplies: parentId => ({
         text: `
-            SELECT comments.*, users.avatar, users.username
-            FROM comments INNER JOIN users ON comments.poster_id=users.user_id
-            WHERE comments.parent_id=$1;
-        `, values: [commentId]
+            SELECT * FROM all_comments WHERE parent_id = $1;
+        `, values: [parentId]
     })
 };

@@ -4,6 +4,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
+const validate = require('./validation/posts');
 const config = require('../config');
 const { authHelper, fileHelper } = require('../helpers');
 const db = require('../db');
@@ -11,13 +12,13 @@ const { Posts } = require('../db/queries');
 
 const upload = config.fileUpload;
 
-router.post('/create', authHelper.verifyToken, upload.single('image'), 
+router.post('/create', authHelper.verifyToken, validate.createPost, upload.single('image'), 
     fileHelper.uploadImage('uploads/posts'),
     (req, res) => {
         const { caption } = req.body;
         const { user, file } = req;
         
-        const sql = Posts.create(user.user_id, caption, file.filename);
+        const sql = Posts.create(user.user_id, file.filename, caption);
         
         db.query(sql, (err, result) => {
             if (err) res.status(400).json({ msg: 'Error creating post!' });
@@ -39,10 +40,10 @@ router.get('/image/:imageName', (req, res) => {
     }
 });
 
-router.get('/get/:username', (req, res) => {
+router.get('/get/:username', validate.getPosts, (req, res) => {
     const { username } = req.params;
 
-    const sql = Posts.get(username);
+    const sql = Posts.getUserPosts(username);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -50,7 +51,7 @@ router.get('/get/:username', (req, res) => {
     });
 });
 
-router.get('/following', authHelper.verifyToken, (req, res) => {
+router.get('/following', authHelper.verifyToken, validate.getFollowingPosts, (req, res) => {
     const { user } = req;
 
     const sql = Posts.getFollowing(user.user_id);
@@ -61,7 +62,7 @@ router.get('/following', authHelper.verifyToken, (req, res) => {
     });
 });
 
-router.get('/like', authHelper.verifyToken, (req, res) => {
+router.get('/like', authHelper.verifyToken, validate.like, (req, res) => {
     const { user } = req;
     const { postId } = req.query;
 
@@ -73,11 +74,11 @@ router.get('/like', authHelper.verifyToken, (req, res) => {
     });
 });
 
-router.get('/dislike', authHelper.verifyToken, (req, res) => {
+router.get('/unlike', authHelper.verifyToken, validate.like, (req, res) => {
     const { user } = req;
     const { postId } = req.query;
 
-    let sql = Posts.dislike(user.user_id, postId);
+    let sql = Posts.unlike(user.user_id, postId);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -85,7 +86,7 @@ router.get('/dislike', authHelper.verifyToken, (req, res) => {
     })
 });
 
-router.post('/comment', authHelper.verifyToken, (req, res) => {
+router.post('/comment', validate.comment, authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId, content } = req.body;
 
@@ -97,7 +98,7 @@ router.post('/comment', authHelper.verifyToken, (req, res) => {
     });
 });
 
-router.post('/comment/reply', authHelper.verifyToken, (req, res) => {
+router.post('/comment/reply', validate.reply, authHelper.verifyToken, (req, res) => {
     const { user } = req;
     const { postId, content, parentId } = req.body;
     
@@ -109,7 +110,7 @@ router.post('/comment/reply', authHelper.verifyToken, (req, res) => {
     })
 });
 
-router.get('/comments', (req, res) => {
+router.get('/comments', validate.getComments, (req, res) => {
     const { postId } = req.query;
 
     const sql = Posts.getComments(postId);
@@ -120,7 +121,7 @@ router.get('/comments', (req, res) => {
     });
 });
 
-router.get('/comments/replies', (req, res) => {
+router.get('/comments/replies', validate.getReplies, (req, res) => {
     const { parentId } = req.query;
 
     const sql = Posts.getReplies(parentId);

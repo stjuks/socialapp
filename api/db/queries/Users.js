@@ -1,47 +1,32 @@
 module.exports = {
-    follow: (userId, followingId) => ({
+    follow: (followerId, followingId) => ({
         text: `
-            INSERT INTO followers (follower_id, following_id) 
-            VALUES ($1, $2);
-        `, values: [userId, followingId]
+            SELECT f_follow_user($1, $2);
+        `, values: [followerId, followingId]
     }),
-    unfollow: (userId, followingId) => ({
+    unfollow: (followerId, followingId) => ({
         text: `
-            DELETE FROM followers 
-            WHERE follower_id=$1 AND following_id=$2;
-        `, values: [userId, followingId]
+            SELECT f_unfollow_user($1, $2);
+        `, values: [followerId, followingId]
     }),
     getFollowers: userId => ({
         text: `
-            SELECT user_id, username FROM users WHERE user_id IN 
-            (SELECT follower_id FROM followers WHERE following_id=$1);
+            SELECT * FROM followers_list WHERE self_id = $1;
         `, values: [userId]
     }),
     getFollowing: userId => ({
         text: `
-            SELECT user_id, username FROM users WHERE user_id IN 
-            (SELECT following_id FROM followers WHERE follower_id=$1);
+            SELECT * FROM following_list WHERE self_id = $1;
         `, values: [userId]
     }),
     getProfile: (selfId, username) => ({
         text: `
-            SELECT user_id, username, avatar,
-                EXISTS (
-                    SELECT 1 FROM followers 
-                    WHERE follower_id=$1
-                    AND following_id=users.user_id
-                ) is_watcher_following,
-                (SELECT COUNT(*) FILTER (WHERE follower_id=users.user_id) FROM followers) following_count,
-                (SELECT COUNT(*) FILTER (WHERE following_id=users.user_id) FROM followers) follower_count,
-                (SELECT COUNT(*) FILTER (WHERE user_id=users.user_id) FROM posts) post_count
-            FROM users WHERE users.username=$2;
+            SELECT * FROM f_get_user_profile($1, $2);
         `, values: [selfId, username]
     }),
     search: query => ({
         text: `
-            SELECT username, user_id FROM users 
-            WHERE username LIKE LOWER($1)
-            ORDER BY username LIMIT 20;
+            SELECT * FROM user_search WHERE username LIKE LOWER($1);
         `, values: [`%${query}%`]
     })
 };

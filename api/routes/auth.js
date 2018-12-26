@@ -15,12 +15,12 @@ router.post('/register', validate.register, (req, res) => {
 
     bcrypt.hash(password, 10, (err, hash) => {
 
-        let sql = Auth.register(username, hash, email);
+        let sql = Auth.register(username, email, hash);
 
         db.query(sql, (err, result) => {
             if (err) {
                 return res.status(400).json({
-                    msg: 'Username already exists!'
+                    msg: 'Username or email already exists!'
                 });
             }
             res.end();
@@ -31,7 +31,7 @@ router.post('/register', validate.register, (req, res) => {
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
     
-    const sql = Auth.login(username);
+    const sql = Auth.login(username, password);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
