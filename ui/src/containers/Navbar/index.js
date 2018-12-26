@@ -16,7 +16,9 @@ class Navbar extends Component {
     };
 
     handleSearch = value => {
-        this.props.dispatch(searchUsers(value));
+        if (value.length > 2) {
+            this.props.dispatch(searchUsers(value));
+        }
     }
 
     handleProfile = () => {

@@ -1,6 +1,8 @@
 import { 
     FETCH_FEED,
-    FETCH_USER_POSTS
+    FETCH_USER_POSTS,
+    LIKE_POST,
+    UNLIKE_POST
 } from './types';
 import API from 'api';
 
@@ -44,20 +46,22 @@ export const createPost = (image, caption) => {
     }
 }
 
-export const likePost = postId => {
+export const likePost = (postId, username) => {
     return async dispatch => {
         try {
             await API.posts.like(postId);
+            dispatch(LIKE_POST.SUCCESS({ postId, username }));
         } catch (err) {
 
         }
     }
 }
 
-export const dislikePost = postId => {
+export const unlikePost = (postId, username) => {
     return async dispatch => {
         try {
-            await API.posts.dislike(postId);
+            await API.posts.unlike(postId);
+            dispatch(UNLIKE_POST.SUCCESS({ postId, username }));
         } catch (err) {
 
         }

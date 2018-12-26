@@ -19,8 +19,20 @@ class PostItem extends Component {
     };
 
     render() {
-        const { img, username, caption, timestamp, likeCount, commentCount } = this.props;
-        const { isImageLoaded } = this.state;
+        const { 
+            img, 
+            username, 
+            caption, 
+            timestamp, 
+            likeCount, 
+            commentCount,
+            hasWatcherLiked,
+            handleLike
+        } = this.props;
+
+        const { 
+            isImageLoaded 
+        } = this.state;
 
         return (
             <PostItemStyled>
@@ -34,7 +46,10 @@ class PostItem extends Component {
                         </PostNameStyled>
                     </PostImageStyled>
                     <PostDetailsStyled>
-                        <DetailContainer>
+                        <DetailContainer 
+                            onClick={() => handleLike()} 
+                            hasWatcherLiked={hasWatcherLiked}
+                        >
                             <Icon type="heart" /> {likeCount}
                         </DetailContainer>
                         <DetailContainer>

@@ -12,8 +12,8 @@ const { Posts } = require('../db/queries');
 
 const upload = config.fileUpload;
 
-router.post('/create', authHelper.verifyToken, validate.createPost, upload.single('image'), 
-    fileHelper.uploadImage('uploads/posts'),
+router.post('/create', authHelper.verifyToken, upload.single('image'), 
+    fileHelper.uploadImage('uploads/posts'), validate.createPost,
     (req, res) => {
         const { caption } = req.body;
         const { user, file } = req;
@@ -28,9 +28,15 @@ router.post('/create', authHelper.verifyToken, validate.createPost, upload.singl
 
 router.get('/image/:imageName', (req, res) => {
     const { imageName } = req.params;
+    let img = null;
     
     const pathName = path.join(__dirname, '/../uploads/posts', imageName);
-    const img = fs.readFileSync(pathName);
+    
+    try {
+        img = fs.readFileSync(pathName);
+    } catch (err) {
+        console.log(err);
+    }
 
     if (img) {
         res.set({ 'Content-Type': 'image/png' });
@@ -40,10 +46,11 @@ router.get('/image/:imageName', (req, res) => {
     }
 });
 
-router.get('/get/:username', validate.getPosts, (req, res) => {
+router.get('/get/:username', authHelper.verifyToken, validate.getPosts, (req, res) => {
     const { username } = req.params;
+    const { user } = req;
 
-    const sql = Posts.getUserPosts(username);
+    const sql = Posts.getUserPosts(user.user_id, username);
 
     db.query(sql, (err, result) => {
         if (err) throw err;
@@ -62,19 +69,21 @@ router.get('/following', authHelper.verifyToken, validate.getFollowingPosts, (re
     });
 });
 
-router.get('/like', authHelper.verifyToken, validate.like, (req, res) => {
+router.post('/like', authHelper.verifyToken, validate.like, (req, res) => {
     const { user } = req;
-    const { postId } = req.query;
+    const { postId } = req.body;
+
+    console.log(user);
 
     let sql = Posts.like(user.user_id, postId);
 
     db.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err) res.status(400).json({ msg: 'Error liking post!' });
         res.end();
     });
 });
 
-router.get('/unlike', authHelper.verifyToken, validate.like, (req, res) => {
+router.delete('/like', authHelper.verifyToken, validate.unlike, (req, res) => {
     const { user } = req;
     const { postId } = req.query;
 
@@ -86,7 +95,7 @@ router.get('/unlike', authHelper.verifyToken, validate.like, (req, res) => {
     })
 });
 
-router.post('/comment', validate.comment, authHelper.verifyToken, (req, res) => {
+router.post('/comment', authHelper.verifyToken, validate.comment, (req, res) => {
     const { user } = req;
     const { postId, content } = req.body;
 
@@ -98,7 +107,7 @@ router.post('/comment', validate.comment, authHelper.verifyToken, (req, res) => 
     });
 });
 
-router.post('/comment/reply', validate.reply, authHelper.verifyToken, (req, res) => {
+router.post('/comment/reply', authHelper.verifyToken, validate.reply, (req, res) => {
     const { user } = req;
     const { postId, content, parentId } = req.body;
     

@@ -5,7 +5,7 @@ import {
     FETCH_REPLIES,
     CREATE_POST,
     LIKE_POST,
-    DISLIKE_POST,
+    UNLIKE_POST,
     COMMENT,
     REPLY,
     RESET_STATE,
@@ -51,6 +51,32 @@ export default (state = INITIAL_STATE, action) => {
                 ...state, activePost: action.payload
             }
         }
+        case LIKE_POST.SUCCESS().type: {
+            const { postId, username } = action.payload;
+            let feedPosts = Object.assign([], state.feed);
+            let userPosts = Object.assign({}, state.userPosts);
+
+            const data = handleLike({ 
+                isLike: true, postId, username, feedPosts, userPosts 
+            });
+            
+            return {
+                ...state, ...data
+            }
+        }
+        case UNLIKE_POST.SUCCESS().type: {
+            const { postId, username } = action.payload;
+            let feedPosts = Object.assign([], state.feed);
+            let userPosts = Object.assign({}, state.userPosts);
+
+            const data = handleLike({ 
+                isLike: false, postId, username, feedPosts, userPosts 
+            });
+
+            return {
+                ...state, ...data
+            }
+        }
         case RESET_STATE.type: {
             return INITIAL_STATE;
         }
@@ -59,4 +85,29 @@ export default (state = INITIAL_STATE, action) => {
         }
     }
 
+}
+
+const handleLike = data => {
+    data.feedPosts = data.feedPosts.map(post => {
+        if (post.post_id === data.postId) {
+            data.isLike ? post.like_count++ : post.like_count--;
+            post.has_watcher_liked = data.isLike;
+        }
+        return post;
+    });
+
+    if (data.userPosts[data.username]) {
+        data.userPosts[data.username] = data.userPosts[data.username].map(post => {
+            if (post.post_id === data.postId) {
+                data.isLike ? post.like_count++ : post.like_count--;
+                post.has_watcher_liked = data.isLike;
+            }
+            return post;
+        })
+    }
+
+    return {
+        feed: data.feedPosts,
+        userPosts: data.userPosts
+    }
 }

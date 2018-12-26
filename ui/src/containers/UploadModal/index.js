@@ -11,13 +11,19 @@ import Input from 'styled/Input';
 
 import {
     ModalStyled,
-    ModalBodyStyled,
     ModalHeaderStyled
 } from 'styled/modal';
 
 import {
     ImageContainer,
-    FileInputStyled
+    FileInputStyled,
+    InputsStyled,
+    CaptionStyled,
+    UploadModalBodyStyled,
+    LabelStyled,
+    ImageStyled,
+    SubmitBtnStyled,
+    ImageOverlayStyled
 } from './styles';
 
 class UploadModal extends Component {
@@ -27,6 +33,8 @@ class UploadModal extends Component {
     };
 
     handleChange = e => {
+        console.log(e.target.value);
+        console.log(e.target.name);
         this.setState({ [e.target.name]: e.target.value })
     };
 
@@ -39,6 +47,7 @@ class UploadModal extends Component {
             loadImage.parseMetaData(image, data => {
                 loadImage(image, img => {
                     let node = ReactDOM.findDOMNode(this.imageContainer);
+                    console.log(node.childNodes);
                     node.childNodes[0] && node.removeChild(node.childNodes[0]);
                     node.appendChild(img);
                 }, { orientation: data.exif && data.exif.get('Orientation') });
@@ -63,15 +72,34 @@ class UploadModal extends Component {
                 <ModalHeaderStyled>
                     <Icon type="upload" noHover />
                 </ModalHeaderStyled>
-                <ModalBodyStyled>
-                    <ImageContainer>
-                        <div ref={el => this.imageContainer = el} />
+                <UploadModalBodyStyled>
+                    <ImageContainer htmlFor="file-input">
+                        <ImageStyled ref={el => this.imageContainer = el}>
+                            <ImageOverlayStyled>
+                                Click here<br/>to add an image!
+                            </ImageOverlayStyled>
+                        </ImageStyled>
                     </ImageContainer>
-                    <label htmlFor="file-input">asd</label>
-                    <FileInputStyled id="file-input" name="image" onChange={e => this.handleImage(e)} type="file" />
-                    <Input label="Caption" value={caption} name="caption" onChange={e => this.handleChange(e)} />
-                    <button onClick={() => this.onSubmit()}>Create post</button>
-                </ModalBodyStyled>
+                    <InputsStyled>
+                        <FileInputStyled 
+                            id="file-input" 
+                            name="image" 
+                            onChange={e => this.handleImage(e)} 
+                            type="file" 
+                        />
+                        <LabelStyled>
+                            Caption:
+                        </LabelStyled>
+                        <CaptionStyled 
+                            value={caption}
+                            name="caption"
+                            onChange={e => this.handleChange(e)}
+                        />
+                        <SubmitBtnStyled onClick={() => this.onSubmit()}>
+                            Upload post
+                        </SubmitBtnStyled>
+                    </InputsStyled>
+                </UploadModalBodyStyled>
             </ModalStyled>
         );
     }

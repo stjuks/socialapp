@@ -6,7 +6,7 @@ import { getUserProfile, follow, unfollow } from 'actions/userActions';
 import { getPosts } from 'actions/postActions';
 
 import ProfileDetails from 'components/ProfileDetails';
-import Posts from 'components/Posts';
+import Posts from 'containers/Posts';
 
 import { 
     UserProfileStyled,

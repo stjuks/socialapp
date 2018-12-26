@@ -7,7 +7,9 @@ const uploadImage = destination => {
 		file.filename = `${Date.now()}.jpg`;
 
         if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') {
-            return res.status(400).json({ msg: 'Only PNG and JPEG files are allowed!' });
+            return res.status(400).json({ 
+                msg: 'Only PNG and JPEG files are allowed!' 
+            });
         }
 
         sharp(file.buffer)

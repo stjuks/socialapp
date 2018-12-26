@@ -6,13 +6,12 @@ const load = keyframes`
 `;
 
 export const AuthFormStyled = styled.form`
-    ${({ theme }) => `
+    ${({ theme, height, width }) => `
         box-shadow: 2px 4px 4px ${theme.BLACK(.05)};
         height: 60%;
         padding: 30px;
-        min-height: 450px;
-        min-width: 300px;
-        max-height: 550px;
+        height: ${height || '35rem'};
+        width: ${width || '25rem'};
         background: ${theme.GREY_250()};
         border-radius: 5px;
         display: flex;
@@ -36,11 +35,8 @@ export const FormTitle = styled.div`
 `;
 
 export const InputsStyled = styled.div`
-    flex: ${({ flex }) => flex || 3};            return dispatch(REGISTER.ERROR('Passwords do not match!'));
-
+    flex: ${({ flex }) => flex || 3};
     display: flex;
-    padding: ${({ padding }) => padding || 0};
-    margin-top: 1rem;
     flex-direction: column;
     justify-content: space-around;
 `;
@@ -49,7 +45,6 @@ export const ErrorMessage = styled.div`
     ${({ hasError }) => `
         transform: ${hasError ? 'scaleY(1)' : 'scaleY(0)'};
         transition: all .2s;
-        height: 1.5rem;
         display: flex;
         align-items: center;
         color: indianred;
@@ -59,10 +54,12 @@ export const ErrorMessage = styled.div`
 `;
 
 export const BtnContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1.5;
+    ${({ flex }) => `
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: ${flex || 1.5};
+    `}
 `;
 
 export const SubmitBtn = styled.button`

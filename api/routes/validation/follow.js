@@ -22,7 +22,7 @@ const follow = (req, res, next) => {
 
 const unfollow = (req, res, next) => {
     if (req.params.followingId === req.user.user_id) {
-        res.status(400).json({ 
+        return res.status(400).json({ 
             msg: 'You can not unfollow yourself!'
         })
     }
@@ -40,25 +40,19 @@ const unfollow = (req, res, next) => {
 };
 
 const getFollowers = (req, res, next) => {
-    console.log(req._readableState);
-
     const schema = Joi.object().keys({
-        params: Joi.object().keys({
-            userId: Joi.number().required()
-        })
-    }).options({ allowUnknown: true });
+        userId: Joi.number().required()
+    });
 
-    validate(req, schema, res, next);
+    validate(req.params, schema, res, next);
 };
 
 const getFollowing = (req, res, next) => {
     const schema = Joi.object().keys({
-        params: Joi.object().keys({
-            userId: Joi.number().required()
-        })
-    }).options({ allowUnknown: true });
+        userId: Joi.number().required()
+    });
 
-    validate(req, schema, res, next);
+    validate(req.params, schema, res, next);
 };
 
 module.exports = {

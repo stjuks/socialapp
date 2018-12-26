@@ -17,7 +17,7 @@ export const searchUsers = query => {
 
             dispatch(SEARCH_USERS.SUCCESS(data));
         } catch (err) {
-            dispatch(SEARCH_USERS.ERROR);
+            dispatch(SEARCH_USERS.ERROR());
         }
     }
 };
@@ -30,7 +30,7 @@ export const getFollowing = userId => {
 
             dispatch(FETCH_SELF_FOLLOWING.SUCCESS(data));
         } catch (err) {
-            dispatch(FETCH_SELF_FOLLOWING.ERROR);
+            dispatch(FETCH_SELF_FOLLOWING.ERROR());
         }
     }
 };
@@ -44,7 +44,7 @@ export const getUserProfile = username => {
             dispatch(FETCH_USER_PROFILE.SUCCESS(data, username));
             dispatch(SET_ACTIVE_PROFILE(data));
         } catch (err) {
-            dispatch(FETCH_USER_PROFILE.ERROR);
+            dispatch(FETCH_USER_PROFILE.ERROR());
         }
     }
 };

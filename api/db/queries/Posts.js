@@ -4,14 +4,14 @@ module.exports = {
             SELECT f_create_post($1, $2, $3);
         `, values: [posterId, imageName, caption]
     }),
-    getUserPosts: username => ({
+    getUserPosts: (selfId, username) => ({
         text: `
-            SELECT * FROM all_posts WHERE poster_username = $1;
-        `, values: [username] 
+            SELECT * FROM f_get_user_posts($1, $2);
+        `, values: [selfId, username] 
     }),
     getFollowing: userId => ({
         text: `
-            SELECT * FROM feed_posts WHERE follower_id = $1;
+            SELECT * FROM f_get_feed_posts($1);
         `, values: [userId] 
     }),
     like: (likerId, postId) => ({

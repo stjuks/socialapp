@@ -29,11 +29,11 @@ class RegisterForm extends Component {
         } = this.props;
 
         return (
-            <AuthFormStyled onSubmit={e => onSubmit(e)}>
+            <AuthFormStyled height="45rem" onSubmit={e => onSubmit(e)}>
                 <FormTitle>
                     Register
                 </FormTitle>
-                <InputsStyled flex="6" padding="1rem 0 0 0">
+                <InputsStyled flex="4">
                     <Input
                         required
                         validated={validate.username(values.username)}
@@ -78,7 +78,7 @@ class RegisterForm extends Component {
                 <ErrorMessage hasError={error.length > 0}>
                     {error}
                 </ErrorMessage>
-                <BtnContainer>
+                <BtnContainer flex="1">
                     <SubmitBtn isSuccess={isSuccess} isSubmitted={isSubmitted} isLoading={isLoading}>
                         Register
                         {isLoading &&

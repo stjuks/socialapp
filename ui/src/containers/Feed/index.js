@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getFeedPosts } from 'actions/postActions';
 
 import { FeedStyled } from './styles';
-import Posts from 'components/Posts';
+import Posts from 'containers/Posts';
 
 class Feed extends Component {
     componentDidMount() {

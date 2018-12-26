@@ -83,13 +83,26 @@ const like = (req, res, next) => {
         user: Joi.object().keys({
             user_id: Joi.number().required()
         }),
-        query: Joi.object.keys({
+        body: Joi.object().keys({
             postId: Joi.number().required()
         })
     }).options({ allowUnknown: true });
 
     validate(req, schema, res, next);
 };
+
+const unlike = (req, res, next) => {
+    const schema = Joi.object().keys({
+        user: Joi.object().keys({
+            user_id: Joi.number().required()
+        }),
+        query: Joi.object().keys({
+            postId: Joi.number().required()
+        })
+    }).options({ allowUnknown: true });
+
+    validate(req, schema, res, next);
+}
 
 module.exports = {
     getComments,
@@ -99,5 +112,6 @@ module.exports = {
     createPost,
     getPosts,
     getFollowingPosts,
-    like
+    like,
+    unlike
 };

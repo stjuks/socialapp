@@ -13,7 +13,7 @@ const create = async formData => {
 };
 
 const get = async username => {
-    return cachios.get(`/posts/get/${username}`);
+    return cachios.get(`/posts/get/${username}`, authRequest());
 };
 
 const following = async () => {
@@ -21,13 +21,13 @@ const following = async () => {
 };
 
 const like = async postId => {
-    return axios.get('/posts/like', authRequest({
-        params: { postId }
-    }));
+    return axios.post('/posts/like', { 
+        postId 
+    }, authRequest());
 };
 
-const dislike = async postId => {
-    return axios.get('/posts/dislike', authRequest({
+const unlike = async postId => {
+    return axios.delete('/posts/like', authRequest({
         params: { postId }
     }));
 };
@@ -61,7 +61,7 @@ export default {
     get,
     following,
     like,
-    dislike,
+    unlike,
     comment,
     reply,
     comments,

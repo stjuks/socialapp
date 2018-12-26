@@ -34,7 +34,7 @@ export const register = (username, password, email) => {
 
             history.push(routes.login);
 
-            dispatch(REGISTER.SUCCESS);
+            dispatch(REGISTER.SUCCESS());
         } catch (err) {
             dispatch(REGISTER.ERROR(err.response.data.msg));
         }

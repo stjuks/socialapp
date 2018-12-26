@@ -4,11 +4,11 @@ const fetchAction = name => ({
     ERROR: payload => ({ type: `${name}_ERROR`, payload })
 });
 
-const voidAction = name => ({
+/*const voidAction = name => ({
     START: { type: `${name}_START` },
     SUCCESS: { type: `${name}_SUCCESS` },
     ERROR: payload => ({ type: `${name}_ERROR`, payload })
-});
+});*/
 
 const modalAction = name => ({
     OPEN: { type: `${name}_OPEN` },
@@ -19,7 +19,7 @@ export const RESET_STATE = { type: 'RESET_STATE' };
 
 // auth
 export const LOGIN = fetchAction('LOGIN');
-export const REGISTER = voidAction('REGISTER');
+export const REGISTER = fetchAction('REGISTER');
 
 // modal
 export const UPLOAD = modalAction('UPLOAD');
@@ -30,11 +30,11 @@ export const FETCH_FEED = fetchAction('FETCH_FEED');
 export const FETCH_USER_POSTS = fetchAction('FETCH_USER_POSTS');
 export const FETCH_COMMENTS = fetchAction('FETCH_COMMENTS');
 export const FETCH_REPLIES = fetchAction('FETCH_REPLIES');
-export const CREATE_POST = voidAction('CREATE_POST');
-export const LIKE_POST = voidAction('LIKE_POST');
-export const DISLIKE_POST = voidAction('DISLIKE_POST');
-export const COMMENT = voidAction('COMMENT');
-export const REPLY = voidAction('REPLY');
+export const CREATE_POST = fetchAction('CREATE_POST');
+export const LIKE_POST = fetchAction('LIKE_POST');
+export const UNLIKE_POST = fetchAction('UNLIKE_POST');
+export const COMMENT = fetchAction('COMMENT');
+export const REPLY = fetchAction('REPLY');
 export const SET_ACTIVE_POST = payload => ({ type: 'SET_ACTIVE_POST', payload });
 
 // users
