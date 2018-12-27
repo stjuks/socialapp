@@ -62,6 +62,7 @@ export default function reducer(state=INITIAL_STATE, action) {
                 ...state,
                 activeProfile: {
                     ...state.activeProfile,
+                    follower_count: state.activeProfile.follower_count + 1,
                     is_watcher_following: true
                 },
                 self: {
@@ -78,7 +79,8 @@ export default function reducer(state=INITIAL_STATE, action) {
                 ...state,
                 activeProfile: {
                     ...state.activeProfile,
-                    is_watcher_following: false
+                    is_watcher_following: false,
+                    follower_count: state.activeProfile.follower_count - 1,
                 },
                 self: {
                     ...state.self,

@@ -111,11 +111,11 @@ SELECT
 	(
         SELECT COUNT(*) FROM likes 
         WHERE likes.post_id = posts.post_id
-    ) AS like_count,
+    )::int AS like_count,
 	(
 		SELECT COUNT(*) FROM comments
 		WHERE comments.post_id = posts.post_id
-	) AS comment_count
+	)::int AS comment_count
 FROM 
     (posts INNER JOIN users ON 
     posts.poster_id = users.user_id)
@@ -154,15 +154,15 @@ SELECT
     (
         SELECT COUNT(*) FROM followers
         WHERE followers.follower_id = users.user_id
-    ) AS following_count,
+    )::int AS following_count,
     (
         SELECT COUNT(*) FROM followers
         WHERE followers.following_id = users.user_id
-    ) AS follower_count,
+    )::int AS follower_count,
     (
         SELECT COUNT(*) FROM posts
         WHERE posts.poster_id = users.user_id
-    ) AS post_count
+    )::int AS post_count
 FROM users;
 
 DROP VIEW IF EXISTS user_search;
@@ -197,6 +197,7 @@ FROM users INNER JOIN followers ON
 	users.user_id = followers.following_id;
 
 DROP FUNCTION IF EXISTS f_register_user;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE OR REPLACE FUNCTION f_register_user(
     p_username users.username%TYPE,

@@ -1,6 +1,11 @@
+import {
+    UPLOAD_MODAL
+} from 'actions/types';
+
 const INITIAL_STATE = {
     login: '',
-    register: ''
+    register: '',
+    createPost: ''
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
@@ -13,11 +18,17 @@ export default function reducer(state=INITIAL_STATE, action) {
     const errorMsg = (requestState === 'ERROR') ? action.payload : '';
 
     switch (action.type) {
+        case UPLOAD_MODAL.CLOSE.type: {
+            return { ...state, createPost: '' }
+        }
         case 'LOGIN_' + requestState: {
             return { ...state, login: errorMsg }
         }
         case 'REGISTER_' + requestState: {
             return { ...state, register: errorMsg }
+        }
+        case 'CREATE_POST_' + requestState: {
+            return { ...state, createPost: errorMsg }
         }
         case 'RESET_STATE': {
             return INITIAL_STATE;

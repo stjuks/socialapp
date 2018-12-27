@@ -22,7 +22,7 @@ export const LOGIN = fetchAction('LOGIN');
 export const REGISTER = fetchAction('REGISTER');
 
 // modal
-export const UPLOAD = modalAction('UPLOAD');
+export const UPLOAD_MODAL = modalAction('UPLOAD_MODAL');
 export const SETTINGS = modalAction('SETTINGS');
 
 // posts

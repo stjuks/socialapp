@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import { getFeedPosts } from 'actions/postActions';
 
-import { FeedStyled } from './styles';
+import { 
+    FeedStyled, 
+    FeedTitleStyled, 
+    DividerStyled 
+} from './styles';
+
 import Posts from 'containers/Posts';
 
 class Feed extends Component {
@@ -16,6 +21,10 @@ class Feed extends Component {
 
         return (
             <FeedStyled>
+                <FeedTitleStyled>
+                    Your Feed
+                </FeedTitleStyled>
+                <DividerStyled />
                 <Posts
                     posts={feed}
                 />

@@ -13,7 +13,7 @@ const { Posts } = require('../db/queries');
 const upload = config.fileUpload;
 
 router.post('/create', authHelper.verifyToken, upload.single('image'), 
-    fileHelper.uploadImage('uploads/posts'), validate.createPost,
+    fileHelper.uploadImage('uploads/posts'),
     (req, res) => {
         const { caption } = req.body;
         const { user, file } = req;

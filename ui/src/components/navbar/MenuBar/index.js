@@ -4,7 +4,7 @@ import history from 'helpers/history';
 import Icon from 'styled/Icon';
 import { MenuBarStyled } from './styles';
 
-import { SETTINGS, UPLOAD } from 'actions/types';
+import { SETTINGS, UPLOAD_MODAL } from 'actions/types';
 
 class MenuBar extends Component {
     render() {
@@ -13,7 +13,7 @@ class MenuBar extends Component {
         return (
             <MenuBarStyled>
                 <Icon button type="home" onClick={() => handleHome()} />
-                <Icon button type="upload" onClick={() => toggleModal(UPLOAD.OPEN)} />
+                <Icon button type="upload" onClick={() => toggleModal(UPLOAD_MODAL.OPEN)} />
                 <Icon button type="chat" />
                 <Icon button type="settings" onClick={() => toggleModal(SETTINGS.OPEN)} />
                 <Icon button type="profile" onClick={() => handleProfile()} />

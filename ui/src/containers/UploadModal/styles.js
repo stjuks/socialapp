@@ -80,6 +80,7 @@ export const ImageStyled = styled.div`
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        color: ${theme.BLACK(.3)};
     `}
 `;
 
@@ -88,7 +89,16 @@ export const ImageOverlayStyled = styled.div`
         text-align: center;
         font-size: 3rem;
         font-weight: bold;
-        color: ${theme.SIDEBAR_1()};
+    `}
+`;
+
+export const ErrorMessageStyled = styled.div`
+    ${({ theme }) => `
+        margin-top: .5rem;
+        font-weight: bold;
+        color: indianred;
+        border-left: 2px solid indianred;
+        padding-left: 5px;
     `}
 `;
 

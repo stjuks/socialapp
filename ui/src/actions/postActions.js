@@ -2,7 +2,9 @@ import {
     FETCH_FEED,
     FETCH_USER_POSTS,
     LIKE_POST,
-    UNLIKE_POST
+    UNLIKE_POST,
+    CREATE_POST,
+    UPLOAD_MODAL
 } from './types';
 import API from 'api';
 
@@ -35,13 +37,19 @@ export const getPosts = username => {
 export const createPost = (image, caption) => {
     return async dispatch => {
         try {
+            dispatch(CREATE_POST.START);
             let formData = new FormData();
             formData.append('image', image, image.name);
             formData.append('caption', caption);
             
             await API.posts.create(formData);
+            dispatch(CREATE_POST.SUCCESS());
+            dispatch(UPLOAD_MODAL.CLOSE);
         } catch (err) {
-
+            dispatch(CREATE_POST.ERROR(
+                err.response.data.msg || 
+                'File upload failed! (Max. file size is 10MB)'
+            ));
         }
     }
 }

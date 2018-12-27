@@ -49,7 +49,7 @@ const reply = (req, res, next) => {
 const createPost = (req, res, next) => {
     const schema = Joi.object().keys({
         body: Joi.object().keys({
-            caption: Joi.string().required()
+            caption: Joi.string()
         }),
         user: Joi.object().keys({
             user_id: Joi.number().required()

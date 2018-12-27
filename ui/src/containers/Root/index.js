@@ -21,6 +21,11 @@ class Root extends Component {
     }
 
     render() {
+        const {
+            isSettingsModalOpen,
+            isUploadModalOpen
+        } = this.props;
+
         return (
             <AppStyled>
                 <Switch>

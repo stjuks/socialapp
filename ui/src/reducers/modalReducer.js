@@ -16,7 +16,7 @@ export default function reducer(state=INITIAL_STATE, action) {
     const isOpenRequest = (request === 'OPEN');
 
     switch (action.type) {
-        case 'UPLOAD_' + request: {
+        case 'UPLOAD_MODAL_' + request: {
             return { ...state, upload: isOpenRequest }
         }
         case 'SETTINGS_' + request: {

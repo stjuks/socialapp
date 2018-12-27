@@ -5,6 +5,7 @@ export const NavbarStyled = styled.div`
         padding: 1.5rem;
         border-bottom: 1px solid ${theme.GREY_238()};
         display: flex;
+        flex-shrink: 0;
 
         @media only screen and (max-width: ${theme.BREAKPOINT}) {
             order: 2;

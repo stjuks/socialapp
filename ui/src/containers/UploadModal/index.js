@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as loadImage from 'blueimp-load-image-npm';
 
 import { createPost } from 'actions/postActions';
-import { UPLOAD } from 'actions/types';
+import { UPLOAD_MODAL, CREATE_POST } from 'actions/types';
 
 import Icon from 'styled/Icon';
 import Input from 'styled/Input';
@@ -23,18 +23,17 @@ import {
     LabelStyled,
     ImageStyled,
     SubmitBtnStyled,
-    ImageOverlayStyled
+    ImageOverlayStyled,
+    ErrorMessageStyled
 } from './styles';
 
 class UploadModal extends Component {
     state = {
         caption: '',
-        image: []
+        image: null
     };
 
     handleChange = e => {
-        console.log(e.target.value);
-        console.log(e.target.name);
         this.setState({ [e.target.name]: e.target.value })
     };
 
@@ -42,16 +41,21 @@ class UploadModal extends Component {
         if (e.target.files && e.target.files[0]) {
             const image = e.target.files[0];
 
-            this.setState({ image });
+            if (image.type === 'image/jpeg' || image.type === 'image/png') {
+                this.setState({ image });
             
-            loadImage.parseMetaData(image, data => {
-                loadImage(image, img => {
-                    let node = ReactDOM.findDOMNode(this.imageContainer);
-                    console.log(node.childNodes);
-                    node.childNodes[0] && node.removeChild(node.childNodes[0]);
-                    node.appendChild(img);
-                }, { orientation: data.exif && data.exif.get('Orientation') });
-            })
+                loadImage.parseMetaData(image, data => {
+                    loadImage(image, img => {
+                        let node = ReactDOM.findDOMNode(this.imageContainer);
+                        node.childNodes[0] && node.removeChild(node.childNodes[0]);
+                        node.appendChild(img);
+                    }, { orientation: data.exif && data.exif.get('Orientation') });
+                })
+            } else {
+                this.props.dispatch(
+                    CREATE_POST.ERROR('Only JPG and PNG files allowed!')
+                );
+            }
         }
     };
 
@@ -60,23 +64,27 @@ class UploadModal extends Component {
         const { dispatch } = this.props;
 
         dispatch(createPost(image, caption));
-        dispatch(UPLOAD.CLOSE);
+    }
+
+    handleModalClose = () => {
+        this.props.dispatch(UPLOAD_MODAL.CLOSE);
+        this.setState({ caption: '', image: null });
     }
 
     render() {
-        const { isOpen, dispatch } = this.props;
-        const { caption } = this.state;
+        const { isOpen, dispatch, createPostError } = this.props;
+        const { caption, image } = this.state;
 
         return (
-            <ModalStyled width="60%" isOpen={isOpen} toggle={() => dispatch(UPLOAD.CLOSE)}>
+            <ModalStyled width="60%" isOpen={isOpen} toggle={() => this.handleModalClose()}>
                 <ModalHeaderStyled>
                     <Icon type="upload" noHover />
                 </ModalHeaderStyled>
                 <UploadModalBodyStyled>
                     <ImageContainer htmlFor="file-input">
-                        <ImageStyled ref={el => this.imageContainer = el}>
+                        <ImageStyled isImageLoaded={image} ref={el => this.imageContainer = el}>
                             <ImageOverlayStyled>
-                                Click here<br/>to add an image!
+                                Click here<br/>to load an image!
                             </ImageOverlayStyled>
                         </ImageStyled>
                     </ImageContainer>
@@ -98,6 +106,11 @@ class UploadModal extends Component {
                         <SubmitBtnStyled onClick={() => this.onSubmit()}>
                             Upload post
                         </SubmitBtnStyled>
+                        {createPostError &&
+                            <ErrorMessageStyled>
+                                {createPostError}
+                            </ErrorMessageStyled>
+                        }
                     </InputsStyled>
                 </UploadModalBodyStyled>
             </ModalStyled>
@@ -107,7 +120,8 @@ class UploadModal extends Component {
 
 const mapStateToProps = store => {
     return {
-        isOpen: store.modal.upload
+        isOpen: store.modal.upload,
+        createPostError: store.error.createPost
     }
 };
 

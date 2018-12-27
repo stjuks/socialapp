@@ -7,7 +7,7 @@ export const UserProfileStyled = ScreenContainer.extend`
         flex: 1;
 
         @media only screen and (max-width: ${theme.BREAKPOINT}) {
-            padding: 2rem;
+            padding: 1rem;
         }
     `}
 `;
