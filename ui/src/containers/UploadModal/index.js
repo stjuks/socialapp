@@ -14,6 +14,8 @@ import {
     ModalHeaderStyled
 } from 'styled/modal';
 
+import Button from 'styled/Button';
+
 import {
     ImageContainer,
     FileInputStyled,
@@ -63,7 +65,11 @@ class UploadModal extends Component {
         const { image, caption } = this.state;
         const { dispatch } = this.props;
 
-        dispatch(createPost(image, caption));
+        if (image) {
+            dispatch(createPost(image, caption))
+        } else {
+            dispatch(CREATE_POST.ERROR('You need to choose an image first!'));
+        }
     }
 
     handleModalClose = () => {
@@ -72,7 +78,7 @@ class UploadModal extends Component {
     }
 
     render() {
-        const { isOpen, dispatch, createPostError } = this.props;
+        const { isOpen, dispatch, createPostError, isCreatePostLoading } = this.props;
         const { caption, image } = this.state;
 
         return (
@@ -103,9 +109,14 @@ class UploadModal extends Component {
                             name="caption"
                             onChange={e => this.handleChange(e)}
                         />
-                        <SubmitBtnStyled onClick={() => this.onSubmit()}>
+                        {/*<SubmitBtnStyled onClick={() => this.onSubmit()}>
                             Upload post
-                        </SubmitBtnStyled>
+                        </SubmitBtnStyled>*/}
+                        <Button 
+                            onClick={() => this.onSubmit()} 
+                            value="Upload post" 
+                            isLoading={isCreatePostLoading}
+                        />
                         {createPostError &&
                             <ErrorMessageStyled>
                                 {createPostError}
@@ -121,7 +132,8 @@ class UploadModal extends Component {
 const mapStateToProps = store => {
     return {
         isOpen: store.modal.upload,
-        createPostError: store.error.createPost
+        createPostError: store.error.createPost,
+        isCreatePostLoading: store.loading.createPost
     }
 };
 

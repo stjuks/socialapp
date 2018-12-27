@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     login: false,
-    register: false
+    register: false,
+    createPost: false
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
@@ -18,6 +19,9 @@ export default function reducer(state=INITIAL_STATE, action) {
         }
         case 'REGISTER_' + requestState: {
             return { ...state, register: isStartRequest }
+        }
+        case 'CREATE_POST_' + requestState: {
+            return { ...state, createPost: isStartRequest }
         }
         case 'RESET_STATE': {
             return INITIAL_STATE;
