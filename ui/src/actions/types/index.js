@@ -4,12 +4,6 @@ const fetchAction = name => ({
     ERROR: payload => ({ type: `${name}_ERROR`, payload })
 });
 
-/*const voidAction = name => ({
-    START: { type: `${name}_START` },
-    SUCCESS: { type: `${name}_SUCCESS` },
-    ERROR: payload => ({ type: `${name}_ERROR`, payload })
-});*/
-
 const modalAction = name => ({
     OPEN: { type: `${name}_OPEN` },
     CLOSE: { type: `${name}_CLOSE` }
@@ -24,6 +18,7 @@ export const REGISTER = fetchAction('REGISTER');
 // modal
 export const UPLOAD_MODAL = modalAction('UPLOAD_MODAL');
 export const SETTINGS = modalAction('SETTINGS');
+export const POST_MODAL = modalAction('POST_MODAL');
 
 // posts
 export const FETCH_FEED = fetchAction('FETCH_FEED');

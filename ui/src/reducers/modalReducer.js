@@ -2,7 +2,8 @@ import { RESET_STATE } from 'actions/types';
 
 const INITIAL_STATE = {
     upload: false,
-    settings: false
+    settings: false,
+    post: false
 };
 
 export default function reducer(state=INITIAL_STATE, action) {
@@ -21,6 +22,9 @@ export default function reducer(state=INITIAL_STATE, action) {
         }
         case 'SETTINGS_' + request: {
             return { ...state, settings: isOpenRequest }
+        }
+        case 'POST_MODAL_' + request: {
+            return { ...state, post: isOpenRequest }
         }
         default: {
             break;

@@ -27,7 +27,8 @@ class PostItem extends Component {
             likeCount, 
             commentCount,
             hasWatcherLiked,
-            handleLike
+            handleLike,
+            onClick
         } = this.props;
 
         const { 
@@ -37,7 +38,7 @@ class PostItem extends Component {
         return (
             <PostItemStyled>
                 <PostItemWrapper>
-                    <PostImageStyled>
+                    <PostImageStyled onClick={() => onClick()}>
                         <PostImageWrapper isImageLoaded={isImageLoaded}>
                             <PostImage onLoad={() => this.setState({ isImageLoaded: true })} src={img} />
                         </PostImageWrapper>
@@ -53,7 +54,7 @@ class PostItem extends Component {
                             <Icon type="heart" /> {likeCount}
                         </DetailContainer>
                         <DetailContainer>
-                            <Icon type="chat" /> {commentCount}
+                            <Icon noHover type="chat" /> {commentCount}
                         </DetailContainer>
                         <p>{caption}</p>
                     </PostDetailsStyled>

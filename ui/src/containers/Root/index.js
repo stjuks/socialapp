@@ -10,6 +10,7 @@ import RegisterScreen from '../RegisterScreen';
 import Layout from '../Layout';
 import SettingsModal from '../SettingsModal';
 import UploadModal from '../UploadModal';
+import PostModal from '../PostModal';
 
 import { AppStyled } from './styles';
 
@@ -35,6 +36,7 @@ class Root extends Component {
                 </Switch>
                 <SettingsModal />
                 <UploadModal />
+                <PostModal />
             </AppStyled>
         );
     }

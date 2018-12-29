@@ -7,30 +7,34 @@ const loadImage = keyframes`
 `;
 
 export const PostItemStyled = styled.div`
-    flex-basis: calc(100% / 3);
-    padding: 5px;
-    box-sizing: border-box;
-    min-width: 250px;
+    ${({ theme }) => `
+        flex-basis: calc(100% / 3);
+        padding: 5px;
+        box-sizing: border-box;
+        min-width: 250px;
 
-    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
-        flex-basis: 50%;
-        min-width: 0;
-    }
+        @media only screen and (max-width: ${theme.BREAKPOINT}) {
+            flex-basis: 50%;
+        }
 
-    @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT_SMALL}) {
-        flex-basis: 100%;   
-    }
+        @media only screen and (max-width: ${theme.BREAKPOINT_SMALL}) {
+            flex-basis: 100%;   
+        }
+    `}
 `;
 
 export const PostItemWrapper = styled.div`
     width: 100%;
     height: 100%;
+    border-radius: .25rem .25rem 0 0;
+    overflow: hidden;
 `;
 
 export const PostImageStyled = styled.div`
     width: 100%;
     padding-top: 100%;
     position: relative;
+    cursor: pointer;
     
     :hover .post-name {
         opacity: 1;
@@ -94,12 +98,13 @@ export const PostDetailsStyled = styled.div`
         border-width: 0 1px 1px 1px;
         display: flex;
         align-items: center;
+        border-radius: 0 0 .25rem .25rem;
         
         p { 
-            flex: 1;
             white-space: nowrap;
-            overflow: hidden;
             margin: 0;
+            overflow: hidden;
+            flex: 1 0 0;
             text-overflow: ellipsis;
         }
         

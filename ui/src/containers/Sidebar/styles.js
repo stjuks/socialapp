@@ -6,6 +6,7 @@ export const SidebarStyled = styled.div`
     background: linear-gradient(to bottom right, #604A70, #2E383D);
     color: ${({ theme }) => theme.GREY_238()};
     padding: 20px 30px;
+    flex-shrink: 0;
     
     @media only screen and (max-width: ${({ theme }) => theme.BREAKPOINT}) {
         display: none;

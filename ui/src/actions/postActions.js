@@ -4,7 +4,8 @@ import {
     LIKE_POST,
     UNLIKE_POST,
     CREATE_POST,
-    UPLOAD_MODAL
+    UPLOAD_MODAL,
+    SET_ACTIVE_POST
 } from './types';
 import API from 'api';
 
@@ -113,5 +114,12 @@ export const getReplies = parentId => {
         } catch (err) {
             
         }
+    }
+}
+
+export const setActivePost = post => {
+    return async dispatch => {
+        console.log('xd');
+        dispatch(SET_ACTIVE_POST(post));
     }
 }

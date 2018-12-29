@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { POST_MODAL } from 'actions/types';
+import { setActivePost as setActivePostAction } from 'actions/postActions';
+
 import { API_URL } from 'config';
 
 import { PostsStyled } from './styles';
@@ -17,8 +20,13 @@ class Posts extends Component {
         }
     }
 
+    setActivePost = post => {
+        this.props.dispatch(setActivePostAction(post));
+        this.props.dispatch(POST_MODAL.OPEN);
+    }
+
     render() {
-        const { posts } = this.props;
+        const { posts, dispatch } = this.props;
 
         return (
             <PostsStyled>
@@ -34,6 +42,7 @@ class Posts extends Component {
                         hasWatcherLiked={post.has_watcher_liked}
                         username={post.poster_username}
                         commentCount={post.comment_count}
+                        onClick={() => this.setActivePost(post)}
                     />
                 )}
             </PostsStyled>

@@ -109,9 +109,6 @@ class UploadModal extends Component {
                             name="caption"
                             onChange={e => this.handleChange(e)}
                         />
-                        {/*<SubmitBtnStyled onClick={() => this.onSubmit()}>
-                            Upload post
-                        </SubmitBtnStyled>*/}
                         <Button 
                             onClick={() => this.onSubmit()} 
                             value="Upload post" 
