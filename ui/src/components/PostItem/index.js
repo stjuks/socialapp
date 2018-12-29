@@ -47,11 +47,13 @@ class PostItem extends Component {
                         </PostNameStyled>
                     </PostImageStyled>
                     <PostDetailsStyled>
-                        <DetailContainer 
-                            onClick={() => handleLike()} 
-                            hasWatcherLiked={hasWatcherLiked}
-                        >
-                            <Icon type="heart" /> {likeCount}
+                        <DetailContainer>
+                            <Icon 
+                                onClick={() => handleLike()}
+                                isActive={hasWatcherLiked} 
+                                activeColor="red" 
+                                type="heart" 
+                            /> {likeCount}
                         </DetailContainer>
                         <DetailContainer>
                             <Icon noHover type="chat" /> {commentCount}

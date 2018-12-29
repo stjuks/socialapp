@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { POST_MODAL } from 'actions/types';
+import { likePost, unlikePost } from 'actions/postActions';
 import { API_URL } from 'config';
 
 import { ModalStyled } from 'styled/modal';
@@ -23,6 +25,15 @@ class PostModal extends Component {
         this.props.dispatch(POST_MODAL.CLOSE);
     }
 
+    handleLike = () => {
+        const { activePost, dispatch } = this.props;
+        if (activePost.has_watcher_liked) {
+            dispatch(unlikePost(activePost.post_id));
+        } else {
+            dispatch(likePost(activePost.post_id));
+        }
+    }
+
     render() {
         const { 
             isOpen, 
@@ -34,9 +45,11 @@ class PostModal extends Component {
             <ModalStyled width="60%" isOpen={isOpen} toggle={() => this.handleModalClose()}>
                 <PostHeaderStyled>
                     <ProfilePictureStyled src="images/default-avatar.svg" />
-                    <PostDetailsStyled>
+                    <PostDetailsStyled 
+                        title={moment(activePost.created_at).format('DD.MM.YYYY HH:mm:ss')}
+                    >
                         <strong>{activePost.poster_username}</strong><br/>
-                        {new Date(activePost.created_at).toLocaleString()}
+                        {moment(activePost.created_at).fromNow()}
                     </PostDetailsStyled>
                 </PostHeaderStyled>
                 <ImageWrapperStyled onClick={() => this.handleModalClose()}>
@@ -47,7 +60,12 @@ class PostModal extends Component {
                 <PostFooterStyled>
                     <div className="row-1">
                         <div className="icon">
-                            <Icon type="heart" />
+                            <Icon 
+                                type="heart" 
+                                onClick={() => this.handleLike()}
+                                isActive={activePost.has_watcher_liked}
+                                activeColor="red"
+                            />
                             {activePost.like_count}
                         </div>
                         <div className="icon">

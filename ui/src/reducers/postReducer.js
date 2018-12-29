@@ -55,9 +55,10 @@ export default (state = INITIAL_STATE, action) => {
             const { postId, username } = action.payload;
             let feedPosts = Object.assign([], state.feed);
             let userPosts = Object.assign({}, state.userPosts);
+            let activePost = Object.assign({}, state.activePost);
 
             const data = handleLike({ 
-                isLike: true, postId, username, feedPosts, userPosts 
+                isLike: true, postId, username, feedPosts, userPosts, activePost
             });
             
             return {
@@ -68,9 +69,10 @@ export default (state = INITIAL_STATE, action) => {
             const { postId, username } = action.payload;
             let feedPosts = Object.assign([], state.feed);
             let userPosts = Object.assign({}, state.userPosts);
+            let activePost = Object.assign({}, state.activePost);
 
             const data = handleLike({ 
-                isLike: false, postId, username, feedPosts, userPosts 
+                isLike: false, postId, username, feedPosts, userPosts, activePost
             });
 
             return {
@@ -88,26 +90,34 @@ export default (state = INITIAL_STATE, action) => {
 }
 
 const handleLike = data => {
-    data.feedPosts = data.feedPosts.map(post => {
-        if (post.post_id === data.postId) {
-            data.isLike ? post.like_count++ : post.like_count--;
-            post.has_watcher_liked = data.isLike;
+    let { feedPosts, postId, isLike, userPosts, username, activePost } = data;
+    
+    feedPosts = feedPosts.map(post => {
+        if (post.post_id === postId) {
+            isLike ? post.like_count++ : post.like_count--;
+            post.has_watcher_liked = isLike;
         }
         return post;
     });
 
-    if (data.userPosts[data.username]) {
-        data.userPosts[data.username] = data.userPosts[data.username].map(post => {
-            if (post.post_id === data.postId) {
-                data.isLike ? post.like_count++ : post.like_count--;
-                post.has_watcher_liked = data.isLike;
+    if (userPosts[username]) {
+        userPosts[username] = userPosts[username].map(post => {
+            if (post.post_id === postId) {
+                isLike ? post.like_count++ : post.like_count--;
+                post.has_watcher_liked = isLike;
             }
             return post;
         })
     }
 
+    if (activePost.post_id == postId) {
+        activePost.has_watcher_liked = isLike;
+        isLike ? activePost.like_count++ : activePost.like_count--;
+    }
+
     return {
-        feed: data.feedPosts,
-        userPosts: data.userPosts
+        feed: feedPosts,
+        userPosts,
+        activePost
     }
 }

@@ -2,6 +2,7 @@ export const routes = {
     login: '/login',
     app: '/',
     register: '/register',
+    post: postId => `/post/${postId}`,
     profile: username => `/${username == null ? ':username' : username}`
 };
 

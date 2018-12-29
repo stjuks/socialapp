@@ -123,8 +123,4 @@ export const DetailContainer = styled.div`
     font-weight: bold;
     color: ${({ theme }) => theme.SIDEBAR_1()};
     margin-right: .5rem;
-
-    path {
-        ${({ hasWatcherLiked }) => hasWatcherLiked && 'fill: red;'}
-    }
 `;
