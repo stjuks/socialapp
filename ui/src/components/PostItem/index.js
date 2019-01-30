@@ -28,7 +28,7 @@ class PostItem extends Component {
             commentCount,
             hasWatcherLiked,
             handleLike,
-            onClick
+            onClick,
         } = this.props;
 
         const { 

@@ -465,7 +465,8 @@ CREATE OR REPLACE FUNCTION f_get_feed_posts(
         ) FROM 
             all_posts INNER JOIN followers
             ON all_posts.poster_id = followers.following_id
-            WHERE followers.follower_id = p_self_id;
+            WHERE followers.follower_id = p_self_id
+            ORDER BY all_posts.created_at DESC;
     END;
 $$ LANGUAGE plpgsql
 SECURITY DEFINER

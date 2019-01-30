@@ -26,7 +26,7 @@ class Posts extends Component {
     }
 
     render() {
-        const { posts, dispatch } = this.props;
+        const { posts } = this.props;
 
         return (
             <PostsStyled>

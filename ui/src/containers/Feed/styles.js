@@ -5,13 +5,11 @@ export const FeedTitleStyled = styled.div`
     font-size: 4rem;
     font-weight: 300;
     padding-left: .5rem;
+    width: 100%;
 `;
 
 export const FeedStyled = ScreenContainer.extend`
     ${({ theme }) => `
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
         flex: 1;
         height: 100%;
         

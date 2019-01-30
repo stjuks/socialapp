@@ -23,8 +23,9 @@ class Feed extends Component {
             <FeedStyled>
                 <FeedTitleStyled>
                     Your Feed
+                    <DividerStyled />
                 </FeedTitleStyled>
-                <DividerStyled />
+                
                 <Posts
                     posts={feed}
                 />

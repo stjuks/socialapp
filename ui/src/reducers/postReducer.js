@@ -52,31 +52,21 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
         case LIKE_POST.SUCCESS().type: {
-            const { postId, username } = action.payload;
-            let feedPosts = Object.assign([], state.feed);
-            let userPosts = Object.assign({}, state.userPosts);
-            let activePost = Object.assign({}, state.activePost);
-
-            const data = handleLike({ 
-                isLike: true, postId, username, feedPosts, userPosts, activePost
-            });
+            const result = handleLike({
+                isLike: true, ...state, ...action.payload
+            })
             
             return {
-                ...state, ...data
+                ...state, ...result
             }
         }
         case UNLIKE_POST.SUCCESS().type: {
-            const { postId, username } = action.payload;
-            let feedPosts = Object.assign([], state.feed);
-            let userPosts = Object.assign({}, state.userPosts);
-            let activePost = Object.assign({}, state.activePost);
-
-            const data = handleLike({ 
-                isLike: false, postId, username, feedPosts, userPosts, activePost
-            });
+            const result = handleLike({
+                isLike: false, ...state, ...action.payload
+            })
 
             return {
-                ...state, ...data
+                ...state, ...result
             }
         }
         case RESET_STATE.type: {
@@ -90,9 +80,12 @@ export default (state = INITIAL_STATE, action) => {
 }
 
 const handleLike = data => {
-    let { feedPosts, postId, isLike, userPosts, username, activePost } = data;
-    
-    feedPosts = feedPosts.map(post => {
+    let feed = Object.assign([], data.feed);
+    let userPosts = Object.assign({}, data.userPosts);
+    let activePost = Object.assign({}, data.activePost);
+    const { postId, isLike, username } = data;
+
+    feed = feed.map(post => {
         if (post.post_id === postId) {
             isLike ? post.like_count++ : post.like_count--;
             post.has_watcher_liked = isLike;
@@ -116,7 +109,7 @@ const handleLike = data => {
     }
 
     return {
-        feed: feedPosts,
+        feed,
         userPosts,
         activePost
     }

@@ -28,9 +28,9 @@ class PostModal extends Component {
     handleLike = () => {
         const { activePost, dispatch } = this.props;
         if (activePost.has_watcher_liked) {
-            dispatch(unlikePost(activePost.post_id));
+            dispatch(unlikePost(activePost.post_id, activePost.poster_username));
         } else {
-            dispatch(likePost(activePost.post_id));
+            dispatch(likePost(activePost.post_id, activePost.poster_username));
         }
     }
 
